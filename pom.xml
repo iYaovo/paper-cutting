@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.iyaovo.paper</groupId>
+    <artifactId>paper-cutting</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>paper-common</module>
+        <module>paper-admin</module>
+        <module>paper-foreground</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.4</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <paper.version>1.0-SNAPSHOT</paper.version>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring-boot.version>3.2.2</spring-boot.version>
+        <javax.servlet.version>3.1.0</javax.servlet.version>
+        <fastjson.version>2.0.14</fastjson.version>
+        <knife4j.version>4.4.0</knife4j.version>
+        <knife4j-openapi3>4.1.0</knife4j-openapi3>
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
+        <joda-time.version>2.10.14</joda-time.version>
+        <druid.version>1.2.20</druid.version>
+        <mysql.version>8.0.33</mysql.version>
+        <hutool.version>5.8.9</hutool.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--        Spring Boot应用程序的基本启动器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <!--        Spring Boot应用程序的测试所需的依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--        编写和运行单元测试-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+                    <!--paper通用模块-->
+                    <dependency>
+                        <groupId>com.iyaovo.paper</groupId>
+                        <artifactId>paper-common</artifactId>
+                        <version>${paper.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>cn.hutool</groupId>
+                        <artifactId>hutool-all</artifactId>
+                        <version>${hutool.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.xiaoymin</groupId>
+                        <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                        <version>${knife4j.version}</version>
+                    </dependency>
+                    <!--knife4j-->
+                    <dependency>
+                        <groupId>com.github.xiaoymin</groupId>
+                        <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                        <version>${knife4j.version}</version>
+                    </dependency>
+                    <!--        druid-->
+                    <dependency>
+                        <groupId>com.alibaba</groupId>
+                        <artifactId>druid-spring-boot-3-starter</artifactId>
+                        <version>${druid.version}</version>
+                    </dependency>
+
+                    <!--        MySQL数据库的Java连接器-->
+                    <dependency>
+                        <groupId>com.mysql</groupId>
+                        <artifactId>mysql-connector-j</artifactId>
+                        <version>${mysql.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+
+                    <!-- mybatis-plus -->
+                    <dependency>
+                        <groupId>com.baomidou</groupId>
+                        <artifactId>mybatis-plus-boot-starter</artifactId>
+                        <version>${mybatis-plus.version}</version>
+                    </dependency>
+
+
+
+        </dependencies>
+
+    </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+
+</project>
