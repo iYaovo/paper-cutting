@@ -18,6 +18,12 @@ springdoc:
       packages-to-scan: com.iyaovo.paper.foreground.controller
 
 
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: paper-cutting-admin-secret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  tokenHead: 'Bearer '  #JWT负载中拿到开头
+
 --- #-------日志------
 # knife4j的增强配置，不需要增强可以不配
 knife4j:

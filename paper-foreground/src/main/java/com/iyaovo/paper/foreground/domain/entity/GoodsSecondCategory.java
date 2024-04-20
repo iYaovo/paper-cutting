@@ -42,9 +42,15 @@ public class GoodsSecondCategory {
    private Integer goodsSecondCategoryId;
 
    /**
-    * 商品第一类别名称
+    * 商品第一类别id
     */
-   @TableField("goods_first_category_name")
+   @TableField(value = "goods_first_category_id")
+   private Integer goodsFirstCategoryId;
+
+   /**
+    * 商品第二类别名称
+    */
+   @TableField("goods_second_category_name")
    private String goodsSecondCategoryName;
 }
 

@@ -31,9 +31,5 @@ public interface ICartInfoService extends IService<CartInfo> {
      */
     void settleAccounts(List<CartInfoDto> cartInfoDtoList);
 
-    /**
-     * 展示购物车中的商品
-     */
-    CommonPage<GoodsInfo> showCartGoods(Integer pageNum,
-                                        Integer pageSize);
+
 }

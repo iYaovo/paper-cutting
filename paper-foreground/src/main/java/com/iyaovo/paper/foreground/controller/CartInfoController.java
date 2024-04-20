@@ -17,10 +17,13 @@ import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.common.api.CommonResult;
 import com.iyaovo.paper.foreground.domain.dto.CartInfoDto;
 import com.iyaovo.paper.foreground.domain.entity.GoodsInfo;
+import com.iyaovo.paper.foreground.mapper.DailySignMapper;
+import com.iyaovo.paper.foreground.service.ICartInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +41,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartInfoController {
 
+   @Autowired
+   private ICartInfoService iCartInfoService;
+
+   @Autowired
+   private DailySignMapper dailySignMapper;
    /**
     * 添加物品到购物车
     * @param cartInfoDto
@@ -70,14 +78,6 @@ public class CartInfoController {
       return CommonResult.success();
    }
 
-   /**
-    * 展示购物车商品
-    * @return
-    */
-   @GetMapping("")
-   @Operation(summary = "展示购物车商品")
-   public CommonResult<CommonPage<GoodsInfo>> showCartGoods() {
-      return CommonResult.success();
-   }
+
 }
 

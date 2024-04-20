@@ -19,6 +19,8 @@ import com.iyaovo.paper.foreground.domain.dto.CartInfoDto;
 import com.iyaovo.paper.foreground.domain.entity.GoodsFirstCategory;
 import com.iyaovo.paper.foreground.domain.entity.GoodsInfo;
 import com.iyaovo.paper.foreground.domain.entity.GoodsSecondCategory;
+import com.iyaovo.paper.foreground.domain.vo.GoodsInfoVo;
+import com.iyaovo.paper.foreground.service.IGoodsInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class GoodsInfoController {
+
+   private final IGoodsInfoService iGoodsInfoService;
 
    /**
     * 展示第一类别
@@ -66,8 +70,8 @@ public class GoodsInfoController {
     */
    @GetMapping("/recommend")
    @Operation(summary = "展示推荐物品")
-   public CommonResult<CommonPage<GoodsInfo>> showRecommendedGoods(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
-      return CommonResult.success();
+   public CommonResult<CommonPage<GoodsInfoVo>> showRecommendedGoods(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+      return CommonResult.success(iGoodsInfoService.showRecommendedGoods(pageNum,pageSize));
    }
 
    /**
@@ -76,10 +80,21 @@ public class GoodsInfoController {
     */
    @GetMapping("/{goodsSecondCategoryId}")
    @Operation(summary = "展示第二类别下的商品")
-   public CommonResult<List<GoodsInfo>> showGoodsByGoodsSecondCategoryId(@PathVariable("goodsSecondCategoryId") Integer goodsSecondCategoryId,
+   public CommonResult<CommonPage<GoodsInfoVo>> showGoodsByGoodsSecondCategoryId(@PathVariable("goodsSecondCategoryId") Integer goodsSecondCategoryId,
                                                            @RequestParam("pageNum") Integer pageNum,
                                                            @RequestParam("pageSize")Integer pageSize) {
-      return CommonResult.success();
+      return CommonResult.success(iGoodsInfoService.showGoodsByGoodsSecondCategoryId(goodsSecondCategoryId,pageNum,pageSize));
+   }
+
+   /**
+    * 展示购物车商品
+    * @return
+    */
+   @GetMapping("/cart")
+   @Operation(summary = "展示购物车商品")
+   public CommonResult<CommonPage<GoodsInfoVo>> showCartGoods(@RequestParam("pageNum") Integer pageNum,
+                                                              @RequestParam("pageSize")Integer pageSize) {
+      return CommonResult.success(iGoodsInfoService.showCartGoods(pageNum,pageSize));
    }
 }
 

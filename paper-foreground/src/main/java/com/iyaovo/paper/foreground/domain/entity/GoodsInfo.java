@@ -17,6 +17,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.iyaovo.paper.common.domain.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -54,7 +56,7 @@ public class GoodsInfo extends BaseEntity {
     * 店铺id
     */
    @TableField("shop_id")
-   private Integer shop_id;
+   private Integer shopId;
 
    /**
     * 商品名称
@@ -97,6 +99,10 @@ public class GoodsInfo extends BaseEntity {
     */
    @TableField("total_number")
    private Integer totalNumber;
+
+   private Integer auditingStatus;
+
+   private Integer listingStatus;
 }
 
 

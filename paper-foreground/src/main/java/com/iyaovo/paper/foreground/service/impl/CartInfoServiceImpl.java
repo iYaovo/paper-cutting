@@ -52,11 +52,6 @@ public class CartInfoServiceImpl extends ServiceImpl<CartInfoMapper,CartInfo> im
 
    }
 
-   @Override
-   public CommonPage<GoodsInfo> showCartGoods(Integer pageNum, Integer pageSize) {
-      return null;
-   }
-
 
 }
 
