@@ -16,11 +16,17 @@ package com.iyaovo.paper.foreground.controller;
 import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.common.api.CommonResult;
 import com.iyaovo.paper.foreground.domain.dto.CartInfoDto;
+import com.iyaovo.paper.foreground.domain.dto.IdsParam;
+import com.iyaovo.paper.foreground.domain.dto.SettleCartGoodsParam;
 import com.iyaovo.paper.foreground.domain.entity.GoodsInfo;
+import com.iyaovo.paper.foreground.domain.vo.GoodsInfoVo;
+import com.iyaovo.paper.foreground.mapper.DailySignMapper;
+import com.iyaovo.paper.foreground.service.ICartInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,19 +38,23 @@ import java.util.List;
  * @Date: 2024/4/12 23:54:57
  */
 @RestController
-@RequestMapping("/foreground/cart")
+@RequestMapping("/cart")
 @Tag(name = "买家购物车信息接口")
 @Slf4j
 @RequiredArgsConstructor
 public class CartInfoController {
 
+   @Autowired
+   private ICartInfoService iCartInfoService;
+
    /**
     * 添加物品到购物车
     * @param cartInfoDto
     */
-   @PostMapping("")
+   @PostMapping("/create")
    @Operation(summary = "添加商品到购物车")
-   public CommonResult addGoodsToCart(@RequestBody CartInfoDto cartInfoDto) {
+   public CommonResult createGoodsToCart(@RequestBody CartInfoDto cartInfoDto) {
+      iCartInfoService.createGoodsToCart(cartInfoDto);
       return CommonResult.success();
    }
 
@@ -53,9 +63,10 @@ public class CartInfoController {
     * @param
     * @return
     */
-   @PutMapping("/update")
-   @Operation(summary = "更改商品数量")
-   public CommonResult changeGoodsNumber(@RequestParam("goodsId") Integer goodsId,@RequestParam("goodsNumber") Integer goodsNumber) {
+   @GetMapping("/update")
+   @Operation(summary = "通过购物车id更改商品数量")
+   public CommonResult updateGoodsNumber(@RequestParam("cartId") Integer cartId,@RequestParam("goodsNumber") Integer goodsNumber) {
+      iCartInfoService.updateGoodsNumber(cartId,goodsNumber);
       return CommonResult.success();
    }
 
@@ -64,19 +75,22 @@ public class CartInfoController {
     * @param
     * @return
     */
-   @PutMapping("/settle")
+   @PostMapping("/settle")
    @Operation(summary = "结算购物车商品")
-   public CommonResult settleAccounts(@RequestBody List<Integer> goodsIdList) {
+   public CommonResult settleCartGoods(@RequestBody SettleCartGoodsParam settleCartGoodsParam) {
+      iCartInfoService.settleCartGoods(settleCartGoodsParam);
       return CommonResult.success();
    }
 
    /**
-    * 展示购物车商品
+    * 删除购物车商品
+    * @param
     * @return
     */
-   @GetMapping("")
-   @Operation(summary = "展示购物车商品")
-   public CommonResult<CommonPage<GoodsInfo>> showCartGoods() {
+   @PostMapping("/delete")
+   @Operation(summary = "删除购物车商品")
+   public CommonResult deleteGoodsFromCart(@RequestBody IdsParam idsParam) {
+      iCartInfoService.deleteGoodsFromCart(idsParam);
       return CommonResult.success();
    }
 }

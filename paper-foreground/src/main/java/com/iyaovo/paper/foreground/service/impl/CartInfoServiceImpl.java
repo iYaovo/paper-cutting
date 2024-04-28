@@ -13,15 +13,23 @@
  */
 package com.iyaovo.paper.foreground.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iyaovo.paper.common.api.CommonPage;
+import com.iyaovo.paper.common.domain.OrderStatusEnum;
 import com.iyaovo.paper.foreground.domain.dto.CartInfoDto;
-import com.iyaovo.paper.foreground.domain.entity.CartInfo;
-import com.iyaovo.paper.foreground.domain.entity.GoodsInfo;
-import com.iyaovo.paper.foreground.mapper.CartInfoMapper;
+import com.iyaovo.paper.foreground.domain.dto.IdsParam;
+import com.iyaovo.paper.foreground.domain.dto.SettleCartGoodsParam;
+import com.iyaovo.paper.foreground.domain.entity.*;
+import com.iyaovo.paper.foreground.domain.vo.GoodsInfoVo;
+import com.iyaovo.paper.foreground.mapper.*;
+import com.iyaovo.paper.foreground.service.IBuyerInfoService;
 import com.iyaovo.paper.foreground.service.ICartInfoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,31 +39,47 @@ import java.util.List;
  * @Date: 2024/4/12 23:48:50
  */
 @Service
+@RequiredArgsConstructor
 public class CartInfoServiceImpl extends ServiceImpl<CartInfoMapper,CartInfo> implements ICartInfoService {
-   @Override
-   public void addGoodsToCart(CartInfoDto cartInfoDto) {
 
+   private final IBuyerInfoService iBuyerInfoService;
+
+   private final CartInfoMapper cartInfoMapper;
+
+   private final BuyerInfoMapper buyerInfoMapper;
+
+   private final GoodsInfoMapper goodsInfoMapper;
+
+   private final OrderInfoMapper orderInfoMapper;
+
+   @Override
+   public void createGoodsToCart(CartInfoDto cartInfoDto) {
+      cartInfoMapper.insert(new CartInfo(null,iBuyerInfoService.getBuyerInfo().getBuyerId(),cartInfoDto.getGoodsId(),cartInfoDto.getGoodsNumber()));
    }
 
    @Override
-   public void deleteGoodsFromCart(Integer goodsId) {
-
+   public void deleteGoodsFromCart(IdsParam idsParam) {
+      for (long cartId : idsParam.getIds()) {
+         cartInfoMapper.deleteById(cartId);
+      }
    }
 
    @Override
-   public void changeGoodsNumber(Integer goodsId,Integer goodsNumber) {
-
+   public void updateGoodsNumber(Integer cartId,Integer goodsNumber) {
+      cartInfoMapper.updateById(new CartInfo(cartId,null,null,goodsNumber));
    }
 
    @Override
-   public void settleAccounts(List<CartInfoDto> cartInfoDtoList) {
-
+   public void settleCartGoods(SettleCartGoodsParam settleCartGoodsParam) {
+      Integer receivingAddressId = settleCartGoodsParam.getReceivingAddressId();
+      for (int cartId : settleCartGoodsParam.getCartIds()) {
+         CartInfo cartInfo = cartInfoMapper.selectById(cartId);
+         orderInfoMapper.insert(new OrderInfo(null, cartInfo.getGoodsId(), iBuyerInfoService.getBuyerInfo().getBuyerId(), OrderStatusEnum.PENDING_EVALUATE, receivingAddressId));
+         cartInfoMapper.deleteById(cartId);
+      }
    }
 
-   @Override
-   public CommonPage<GoodsInfo> showCartGoods(Integer pageNum, Integer pageSize) {
-      return null;
-   }
+
 
 
 }

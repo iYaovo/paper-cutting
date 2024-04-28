@@ -15,6 +15,7 @@ package com.iyaovo.paper.common.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,16 +37,19 @@ import java.time.LocalDateTime;
       /**
        * 创建时间
        */
+      @JsonIgnore
       @TableField("create_time")
       private LocalDateTime createTime;
       /**
        * 修改时间
        */
+      @JsonIgnore
       @TableField("update_time")
       private LocalDateTime updateTime;
       /**
        * 逻辑删除(1删除 0未删除)
        */
+      @JsonIgnore
       @TableLogic
       @TableField("del_flag")
       private boolean delFlag;

@@ -15,6 +15,7 @@ package com.iyaovo.paper.foreground;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @ClassName: PaperForegroundApplication
@@ -23,6 +24,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date: 2024/4/11 08:15:22
  */
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.iyaovo.paper.common","com.iyaovo.paper.foreground","com.iyaovo.paper.security"})
 public class PaperForegroundApplication {
     public static void main(String[] args) {
         SpringApplication.run(PaperForegroundApplication.class, args);

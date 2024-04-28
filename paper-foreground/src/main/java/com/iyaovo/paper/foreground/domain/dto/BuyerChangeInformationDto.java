@@ -18,6 +18,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.iyaovo.paper.common.domain.SexEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 
 /**
@@ -26,17 +27,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @Author: 22932
  * @Date: 2024/4/12 22:17:34
  */
+@Data
 @Schema(defaultValue = "买家更改信息DTO")
 public class BuyerChangeInformationDto {
 
-    @Schema(defaultValue = "买家名称")
-    private String buyerName;
-
-    @Schema(defaultValue = "买家性别")
-    private SexEnum buyerSex;
-
     @Schema(defaultValue = "买家爱好")
     private String buyerHobby;
+
+    @Schema(defaultValue = "买家个签")
+    private String buyerAutograph;
 
 }
 

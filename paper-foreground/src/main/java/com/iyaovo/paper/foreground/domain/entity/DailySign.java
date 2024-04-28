@@ -52,7 +52,7 @@ public class DailySign {
    /**
     * 签到时间
     */
-   @TableField("create_time")
-   private LocalDateTime createTime;
+   @TableField("sign_time")
+   private String signTime;
 }
 

@@ -17,9 +17,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.iyaovo.paper.common.domain.AddressLabelEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /**
  * @ClassName: receivingAddress
@@ -28,6 +28,7 @@ import lombok.AllArgsConstructor;
  * @Date: 2024/4/12 16:50:20
  */
 @AllArgsConstructor
+@Data
 @Schema(description = "收货地址")
 @TableName(value = "receiving_address")
 public class ReceivingAddress {
@@ -68,11 +69,7 @@ public class ReceivingAddress {
     @TableField("recipient_address")
     private String recipientAddress;
 
-    /**
-     * 地址标签
-     */
-    @TableField("address_label")
-    private AddressLabelEnum addressLabel;
+
 }
 
 

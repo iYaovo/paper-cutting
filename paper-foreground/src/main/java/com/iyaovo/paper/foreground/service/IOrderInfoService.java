@@ -2,6 +2,7 @@ package com.iyaovo.paper.foreground.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.iyaovo.paper.common.api.CommonPage;
+import com.iyaovo.paper.foreground.domain.dto.IdsParam;
 import com.iyaovo.paper.foreground.domain.entity.OrderInfo;
 
 public interface IOrderInfoService extends IService<OrderInfo> {
@@ -17,5 +18,7 @@ public interface IOrderInfoService extends IService<OrderInfo> {
     CommonPage<OrderInfo> showOrderInfoByStatus(Integer orderStatus,
                                                 Integer pageNum,
                                                 Integer pageSize);
+
+    void deleteOrderInfo(IdsParam idsParam);
 
 }

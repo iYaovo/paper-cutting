@@ -5,12 +5,14 @@ import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.foreground.domain.dto.ReceivingAddressDto;
 import com.iyaovo.paper.foreground.domain.entity.ReceivingAddress;
 
+import java.util.List;
+
 public interface IReceivingAddressService extends IService<ReceivingAddress> {
 
     /**
      * 创建地址
      */
-    void newReceivingAddress(ReceivingAddressDto receivingAddressDto);
+    void createReceivingAddress(ReceivingAddressDto receivingAddressDto);
 
     /**
      * 更改地址
@@ -20,7 +22,9 @@ public interface IReceivingAddressService extends IService<ReceivingAddress> {
     /**
      * 展示所有地址
      */
-    CommonPage<ReceivingAddressDto> showReceivingAddress(Integer pageNum,
-                                                         Integer pageSize);
+    List<ReceivingAddress> showReceivingAddress();
 
+    ReceivingAddress getReceivingAddressById(Integer receivingAddressId);
+
+    void deleteReceivingAddressById(Integer receivingAddressId);
 }

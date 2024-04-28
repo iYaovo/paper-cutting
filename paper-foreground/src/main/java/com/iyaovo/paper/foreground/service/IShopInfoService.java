@@ -16,8 +16,7 @@ public interface IShopInfoService extends IService<ShopInfo> {
                                             Integer pageNum,
                                             Integer pageSize);
 
-    /**
-     * 通过商品id获取店铺
-     */
-    ShopInfo showShopInfoByGoodsId(Integer goodsId);
+
+
+    ShopInfo showShopsByShopId(Integer shopId);
 }

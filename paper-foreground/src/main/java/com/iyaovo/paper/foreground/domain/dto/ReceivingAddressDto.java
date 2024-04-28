@@ -13,11 +13,8 @@
  */
 package com.iyaovo.paper.foreground.domain.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.iyaovo.paper.common.domain.AddressLabelEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 /**
  * @ClassName: ReceivingAddressDto
@@ -25,7 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @Author: 22932
  * @Date: 2024/4/13 20:37:44
  */
-
+@Data
 @Schema(defaultValue = "收货地址DTO")
 public class ReceivingAddressDto {
 
@@ -43,8 +40,5 @@ public class ReceivingAddressDto {
 
    @Schema(defaultValue = "收件人详细地址")
    private String recipientAddress;
-
-   @Schema(defaultValue = "地址标签")
-   private AddressLabelEnum addressLabel;
 }
 

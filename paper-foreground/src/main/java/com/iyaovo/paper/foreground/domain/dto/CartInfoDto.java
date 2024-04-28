@@ -17,6 +17,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -26,18 +27,17 @@ import java.io.Serializable;
  * @Author: 22932
  * @Date: 2024/4/12 23:47:03
  */
+@Data
 @Schema(defaultValue = "购物车DTO")
 public class CartInfoDto implements Serializable {
     private static final long serialVersionUID = 1L;
-
-
-    @Schema(defaultValue = "购物车id")
-    private Integer cartId;
 
     @Schema(defaultValue = "商品id")
     private Integer goodsId;
 
     @Schema(defaultValue = "商品数量")
     private Integer goodsNumber;
+
+
 }
 

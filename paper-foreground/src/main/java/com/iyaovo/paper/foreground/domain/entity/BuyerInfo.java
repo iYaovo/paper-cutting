@@ -50,28 +50,23 @@ public class BuyerInfo extends BaseEntity {
    private String buyerName;
 
    /**
-    * 买家账号
-    */
-   @TableField("buyer_account")
-   private String buyerAccount;
-
-   /**
     * 买家密码
     */
    @TableField("buyer_password")
    private String buyerPassword;
 
-   /**
-    * 买家性别
-    */
-   @TableField("buyer_sex")
-   private SexEnum buyerSex;
 
    /**
     * 买家爱好
     */
    @TableField("buyer_hobby")
    private String buyerHobby;
+
+   /**
+    * 买家个签
+    */
+   @TableField("buyer_autograph")
+   private String buyerAutograph;
 
    /**
     * 头像

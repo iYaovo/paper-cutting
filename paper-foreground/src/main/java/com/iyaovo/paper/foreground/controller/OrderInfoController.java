@@ -15,7 +15,9 @@ package com.iyaovo.paper.foreground.controller;
 
 import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.common.api.CommonResult;
+import com.iyaovo.paper.foreground.domain.dto.IdsParam;
 import com.iyaovo.paper.foreground.domain.entity.OrderInfo;
+import com.iyaovo.paper.foreground.service.IOrderInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +31,13 @@ import org.springframework.web.bind.annotation.*;
  * @Date: 2024/4/13 21:01:49
  */
 @RestController
-@RequestMapping("/foreground/order")
+@RequestMapping("/order")
 @Tag(name = "订单信息接口")
 @Slf4j
 @RequiredArgsConstructor
 public class OrderInfoController {
+
+   private final IOrderInfoService iOrderInfoService;
 
    /**
     * 展示全部订单
@@ -42,7 +46,7 @@ public class OrderInfoController {
    @GetMapping("")
    @Operation(summary = "展示全部订单")
    public CommonResult<CommonPage<OrderInfo>> showOrderInfo(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
-      return CommonResult.success();
+      return CommonResult.success(iOrderInfoService.showOrderInfo(pageNum,pageSize));
    }
 
    /**
@@ -54,6 +58,19 @@ public class OrderInfoController {
    public CommonResult<CommonPage<OrderInfo>> showOrderInfoByStatus(@PathVariable("orderStatus") Integer orderStatus,
                                                       @RequestParam("pageNum") Integer pageNum,
                                                       @RequestParam("pageSize") Integer pageSize) {
+      return CommonResult.success(iOrderInfoService.showOrderInfoByStatus(orderStatus,pageNum,pageSize));
+   }
+
+   /**
+    * 删除订单
+    * @param idsParam
+    * @return
+    */
+   @PostMapping("/delete")
+   @Operation(summary = "通过ids删除订单")
+   public CommonResult<CommonPage<OrderInfo>> deleteOrderInfo(@RequestBody IdsParam idsParam) {
+      System.out.println(idsParam.getIds()[0]);
+      iOrderInfoService.deleteOrderInfo(idsParam);
       return CommonResult.success();
    }
 }

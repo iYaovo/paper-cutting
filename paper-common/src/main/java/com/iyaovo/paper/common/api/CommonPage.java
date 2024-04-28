@@ -1,6 +1,9 @@
 package com.iyaovo.paper.common.api;
 
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
+
 import java.util.List;
 
 /**
@@ -11,15 +14,15 @@ public class CommonPage<T> {
     /**
      * 当前页码
      */
-    private Integer pageNum;
+    private Long pageNum;
     /**
      * 每页数量
      */
-    private Integer pageSize;
+    private Long pageSize;
     /**
      * 总页数
      */
-    private Integer totalPage;
+    private Long totalPage;
     /**
      * 总条数
      */
@@ -29,54 +32,51 @@ public class CommonPage<T> {
      */
     private List<T> list;
 
-//    /**
-//     * 将PageHelper分页后的list转为分页信息
-//     */
-//    public static <T> CommonPage<T> restPage(List<T> list) {
-//        CommonPage<T> result = new CommonPage<T>();
-//        PageInfo<T> pageInfo = new PageInfo<T>(list);
-//        result.setTotalPage(pageInfo.getPages());
-//        result.setPageNum(pageInfo.getPageNum());
-//        result.setPageSize(pageInfo.getPageSize());
-//        result.setTotal(pageInfo.getTotal());
-//        result.setList(pageInfo.getList());
-//        return result;
-//    }
-//
-//    /**
-//     * 将SpringData分页后的list转为分页信息
-//     */
-//    public static <T> CommonPage<T> restPage(Page<T> pageInfo) {
-//        CommonPage<T> result = new CommonPage<T>();
-//        result.setTotalPage(pageInfo.getTotalPages());
-//        result.setPageNum(pageInfo.getNumber());
-//        result.setPageSize(pageInfo.getSize());
-//        result.setTotal(pageInfo.getTotalElements());
-//        result.setList(pageInfo.getContent());
-//        return result;
-//    }
+    /**
+     * 将PageHelper分页后的list转为分页信息
+     */
+    public static <T> CommonPage<T> restPage(Page<T> list) {
+        CommonPage<T> result = new CommonPage<T>();
+        result.setTotalPage(list.getPages());
+        result.setPageNum(list.getCurrent());
+        result.setPageSize(list.getSize());
+        result.setTotal(list.getTotal());
+        result.setList(list.getRecords());
+        return result;
+    }
 
-    public Integer getPageNum() {
+    public static <T> CommonPage<T> restPage(List<T> list) {
+        CommonPage<T> result = new CommonPage<T>();
+        PageInfo<T> pageInfo = new PageInfo<T>(list);
+        result.setTotalPage((long) pageInfo.getPages());
+        result.setPageNum((long) pageInfo.getPageNum());
+        result.setPageSize((long) pageInfo.getPageSize());
+        result.setTotal(pageInfo.getTotal());
+        result.setList(pageInfo.getList());
+        return result;
+    }
+
+    public Long getPageNum() {
         return pageNum;
     }
 
-    public void setPageNum(Integer pageNum) {
+    public void setPageNum(Long pageNum) {
         this.pageNum = pageNum;
     }
 
-    public Integer getPageSize() {
+    public Long getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(Integer pageSize) {
+    public void setPageSize(Long pageSize) {
         this.pageSize = pageSize;
     }
 
-    public Integer getTotalPage() {
+    public Long getTotalPage() {
         return totalPage;
     }
 
-    public void setTotalPage(Integer totalPage) {
+    public void setTotalPage(Long totalPage) {
         this.totalPage = totalPage;
     }
 

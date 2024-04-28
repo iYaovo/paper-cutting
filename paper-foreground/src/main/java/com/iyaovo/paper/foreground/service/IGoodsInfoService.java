@@ -15,9 +15,10 @@ package com.iyaovo.paper.foreground.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.iyaovo.paper.common.api.CommonPage;
-import com.iyaovo.paper.foreground.domain.entity.GoodsFirstCategory;
+import com.iyaovo.paper.foreground.domain.dto.IdsParam;
 import com.iyaovo.paper.foreground.domain.entity.GoodsInfo;
-import com.iyaovo.paper.foreground.domain.entity.GoodsSecondCategory;
+import com.iyaovo.paper.foreground.domain.vo.CartGoodsVo;
+import com.iyaovo.paper.foreground.domain.vo.GoodsInfoVo;
 
 import java.util.List;
 
@@ -29,28 +30,22 @@ import java.util.List;
  */
 public interface IGoodsInfoService extends IService<GoodsInfo> {
 
-   /**
-    * 获取大类名称列表
-    */
-   List<GoodsFirstCategory> showGoodsFirstCategoryList();
-
-   /**
-    * 通过大类id获取小类名称列表
-    */
-   List<GoodsSecondCategory> showGoodsSecondCategoryListById(Integer goodsFirstCategoryId);
 
    /**
     * 展示首页商品/精品推荐(随机分页)
     */
-   CommonPage<GoodsInfo> showRecommendedGoods(Integer pageNum,
-                             Integer pageSize);
+   CommonPage<GoodsInfoVo> showRecommendedGoods(Integer pageNum,
+                                                Integer pageSize);
 
    /**
     * 通过小类id获取商品(分页)
     */
-   List<GoodsInfo> showGoodsByGoodsSecondCategoryId(Integer goodsSecondCategoryId,
+   CommonPage<GoodsInfoVo> showGoodsByGoodsCategoryId(Integer goodsSecondCategoryId,
                                                     Integer pageNum,
                                                     Integer pageSize);
 
+   List<GoodsInfoVo> showCartGoods();
+
+   List<GoodsInfoVo> showSettleGoods(IdsParam idsParam);
 }
 

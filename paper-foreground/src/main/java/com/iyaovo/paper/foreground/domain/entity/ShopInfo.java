@@ -37,7 +37,7 @@ public class ShopInfo extends BaseEntity {
      * 店铺id
      */
     @TableId(value = "shop_id",type = IdType.ASSIGN_ID)
-    private Integer shop_id;
+    private Integer shopId;
 
     /**
      * 店铺名称

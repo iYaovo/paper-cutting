@@ -3,28 +3,40 @@ package com.iyaovo.paper.foreground.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.foreground.domain.dto.BuyerChangeInformationDto;
-import com.iyaovo.paper.foreground.domain.dto.BuyerLoginDto;
-import com.iyaovo.paper.foreground.domain.dto.BuyerRegisterDto;
+import com.iyaovo.paper.foreground.domain.dto.BuyerParam;
 import com.iyaovo.paper.foreground.domain.entity.BuyerInfo;
 import com.iyaovo.paper.foreground.domain.entity.GoodsInfo;
 import com.iyaovo.paper.foreground.domain.entity.ShopInfo;
+import com.iyaovo.paper.foreground.domain.vo.BuyerInfoSimpleVo;
+import com.iyaovo.paper.foreground.domain.vo.BuyerInfoVo;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 public interface IBuyerInfoService extends IService<BuyerInfo> {
 
     /**
+     * 获取当前登录用户信息
+     * @param
+     * @return
+     */
+    BuyerInfo getBuyerInfo();
+
+    /**
      * 注册
      */
-    void registerBuyer(BuyerRegisterDto buyerRegisterDto);
+    void registerBuyer(BuyerParam buyerParam);
 
     /**
      * 登录
      */
-    void loginBuyer(BuyerLoginDto buyerLoginDto);
+    String loginBuyer(BuyerParam buyerParam);
 
     /**
-     * 登出
+     * 更改密码
      */
-    void logoutBuyer(Long buyerId);
+    void updatePassword(String oldPassword,String newPassword);
 
     /**
      * 修改头像
@@ -32,19 +44,35 @@ public interface IBuyerInfoService extends IService<BuyerInfo> {
     void changeAvatar();
 
     /**
+     * 展示简易资料(主页)
+     */
+    BuyerInfoSimpleVo showSimpleInformation();
+
+    /**
      * 查看个人资料
      */
-    BuyerInfo showBuyerInfo();
+    BuyerInfoVo showInformation();
 
     /**
      *修改资料
      */
     void changeInformation(BuyerChangeInformationDto buyerChangeInformationDto);
 
+
+
     /**
-     * 每日签到
+     * 通过username获取用户
+     * @param username
+     * @return
      */
-    void dailySign();
+    UserDetails loadUserByUsername(String username);
+
+    /**
+     * 通过username获取用户
+     * @param username
+     * @return
+     */
+    BuyerInfo getAdminByUsername(String username);
 
     /**
      * 商品收藏
@@ -63,4 +91,34 @@ public interface IBuyerInfoService extends IService<BuyerInfo> {
      */
     CommonPage<GoodsInfo> showGoodsViews(Integer pageNum,
                                          Integer pageSize);
+
+    /**
+     * 每日签到
+     */
+    void dailySign();
+
+    /**
+     * 查看签到
+     */
+    List<Integer> showSign(Long time);
+
+    /**
+     * 收藏
+     */
+
+    /**
+     * 取消收藏
+     */
+
+    /**
+     * 店铺关注
+     */
+
+    /**
+     * 取消关注
+     */
+
+    /**
+     * 清理超过多少天的近期浏览
+     */
 }

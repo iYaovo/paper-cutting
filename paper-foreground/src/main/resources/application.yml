@@ -18,6 +18,12 @@ springdoc:
       packages-to-scan: com.iyaovo.paper.foreground.controller
 
 
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: paper-cutting-foreground-secret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  tokenHead: 'Bearer '  #JWT负载中拿到开头
+
 --- #-------日志------
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
@@ -34,6 +40,9 @@ knife4j:
 
 --- #------mybatisplus------
 mybatis-plus:
+  configuration:
+    # 控制台输出
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       # 主键类型：自增
@@ -60,10 +69,35 @@ spring:
       stat-view-servlet: #访问监控网页的登录用户名和密码
         login-username: druid
         login-password: druid
-#  redis:
-#    host: localhost # Redis服务器地址
-#    database: 0 # Redis数据库索引（默认为0）
-#    port: 6379 # Redis服务器连接端口
-#    password: # Redis服务器连接密码（默认为空）
-#    timeout: 300ms # 连接超时时间（毫秒）
+redis:
+  host: localhost # Redis服务器地址
+  database: 0 # Redis数据库索引（默认为0）
+  port: 6379 # Redis服务器连接端口
+  password: # Redis服务器连接密码（默认为空）
+  timeout: 300ms # 连接超时时间（毫秒）
 
+secure:
+  ignored:
+    urls: #安全路径白名单
+      - /swagger-ui/
+      - /doc.html
+      - /*/api-docs/**
+      - /webjars/**
+      - /swagger-resources/**
+      #      - /**/*.html
+      - /**.html
+      #      - /**/*.js
+      - /**.js
+      #      - /**/*.css
+      - /**.css
+      #      - /**/*.png
+      - /**.png
+      - /**.map
+      #      - /**/*.map
+      - /favicon.ico
+      - /actuator/**
+      - /druid/**
+      - /buyer/login
+      - /buyer/register
+      - /buyer/info
+      - /buyer/logout
