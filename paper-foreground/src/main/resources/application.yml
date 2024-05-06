@@ -3,8 +3,8 @@ spring:
   application:
     name: paper-foreground
 server:
-  port: 8081
-# springdoc-openapi项目配置，访问地址：http://127.0.0.1:8081/doc.html
+  port: 8082
+# springdoc-openapi项目配置，访问地址：http://127.0.0.1:8082/doc.html
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

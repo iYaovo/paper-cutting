@@ -47,7 +47,7 @@ public class GoodsInfo extends BaseEntity {
    private Integer goodsId;
 
    /**
-    * 商品第二类id
+    * 商品类id
     */
    @TableField("goods_category_id")
    private Integer goodsCategoryId;
@@ -100,9 +100,7 @@ public class GoodsInfo extends BaseEntity {
    @TableField("total_number")
    private Integer totalNumber;
 
-   private Integer auditingStatus;
 
-   private Integer listingStatus;
 }
 
 

@@ -102,6 +102,7 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
         //密码需要客户端加密后传递
         try {
             UserDetails userDetails = loadUserByUsername(buyerParam.getBuyerAccount());
+
             if(!passwordEncoder.matches(buyerParam.getBuyerPassword(),userDetails.getPassword())){
                 Asserts.fail("密码不正确");
             }
@@ -109,7 +110,7 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
         } catch (AuthenticationException e) {
-            Asserts.fail("登录异常");
+            Asserts.fail("该账号不存在");
         }
         return token;
     }
