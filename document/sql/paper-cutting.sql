@@ -69,6 +69,24 @@ INSERT INTO `daily_sign` (`daily_sign_id`, `buyer_id`, `sign_time`) VALUES
                                                                         (3, 1782381108064657409, '2024-04-24'),
                                                                         (6, 1782381108064657409, '2024-04-26');
 
+-- 导出  表 paper-cutting.discuss_info 结构
+CREATE TABLE IF NOT EXISTS `discuss_info` (
+                                              `discuss_id` int NOT NULL AUTO_INCREMENT COMMENT '主键id',
+                                              `buyer_id` bigint NOT NULL COMMENT '用户id',
+                                              `parent_id` int NOT NULL COMMENT '讨论父id(0为一级讨论)',
+                                              `discuss_content` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT '讨论内容',
+    `favorite_number` int NOT NULL DEFAULT '0' COMMENT '点赞数',
+    `comment_number` int NOT NULL DEFAULT '0' COMMENT '评论数',
+    PRIMARY KEY (`discuss_id`) USING BTREE
+    ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='广场讨论表';
+
+-- 正在导出表  paper-cutting.discuss_info 的数据：~0 rows (大约)
+INSERT INTO `discuss_info` (`discuss_id`, `buyer_id`, `parent_id`, `discuss_content`, `favorite_number`, `comment_number`) VALUES
+                                                                                                                               (1, 1782381108064657409, 0, '一级评论1', 0, 0),
+                                                                                                                               (2, 1782381108064657409, 0, '一级评论2', 1, 1),
+                                                                                                                               (3, 1782381108064657409, 2, '一级评论2的二级评论', 0, 0),
+                                                                                                                               (4, 1782381108064657409, 2, '一级评论2的二级评论', 0, 0);
+
 -- 导出  表 paper-cutting.goods_category 结构
 CREATE TABLE IF NOT EXISTS `goods_category` (
                                                 `goods_category_id` tinyint unsigned NOT NULL AUTO_INCREMENT,
