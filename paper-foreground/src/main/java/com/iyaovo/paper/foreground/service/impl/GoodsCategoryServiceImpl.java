@@ -15,9 +15,12 @@ package com.iyaovo.paper.foreground.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.iyaovo.paper.common.constant.Constants;
+import com.iyaovo.paper.common.util.ImageToBase64Util;
 import com.iyaovo.paper.foreground.domain.dto.GoodsCategoryWithChildrenItem;
 import com.iyaovo.paper.foreground.domain.entity.CartInfo;
 import com.iyaovo.paper.foreground.domain.entity.GoodsCategory;
+import com.iyaovo.paper.foreground.domain.vo.GoodsCategoryVo;
 import com.iyaovo.paper.foreground.mapper.CartInfoMapper;
 import com.iyaovo.paper.foreground.mapper.GoodsCategoryMapper;
 import com.iyaovo.paper.foreground.service.ICartInfoService;
@@ -51,10 +54,25 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryMapper, G
             QueryWrapper<GoodsCategory> goodsCategoryChildrenQueryWrapper = new QueryWrapper<GoodsCategory>();
             goodsCategoryChildrenQueryWrapper.eq("category_superior_id",goodsCategory.getGoodsCategoryId());
             GoodsCategoryWithChildrenItem goodsCategoryWithChildrenItem = new GoodsCategoryWithChildrenItem(goodsCategory.getGoodsCategoryId(),
-                    goodsCategory.getGoodCategoryName(),goodsCategory.getCategorySuperiorId(),goodsCategoryMapper.selectList(goodsCategoryChildrenQueryWrapper));
+                    goodsCategory.getGoodCategoryName(),goodsCategory.getCategorySuperiorId(),goodsCategoryToGoodsCategoryVo(goodsCategoryMapper.selectList(goodsCategoryChildrenQueryWrapper)));
             goodsCategoryWithChildrenItems.add(goodsCategoryWithChildrenItem);
         });
         return goodsCategoryWithChildrenItems;
+    }
+
+    private List<GoodsCategoryVo> goodsCategoryToGoodsCategoryVo(List<GoodsCategory> goodsCategoryList){
+        List<GoodsCategoryVo> goodsCategoryVos = new ArrayList<>();
+        goodsCategoryList.forEach(goodsCategory -> {
+            String picUrl = null;
+            if(goodsCategory.getCategorySuperiorId() == 0){
+                picUrl = null;
+            }else{
+                picUrl = ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+goodsCategory.getPicUrl());
+            }
+            goodsCategoryVos.add(new GoodsCategoryVo(goodsCategory.getGoodsCategoryId(),goodsCategory.getGoodCategoryName(),
+                    goodsCategory.getCategorySuperiorId(),picUrl));
+        });
+        return goodsCategoryVos;
     }
 }
 

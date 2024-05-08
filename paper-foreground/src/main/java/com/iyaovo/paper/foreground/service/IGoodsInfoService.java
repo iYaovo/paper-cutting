@@ -47,5 +47,7 @@ public interface IGoodsInfoService extends IService<GoodsInfo> {
    List<GoodsInfoVo> showCartGoods();
 
    List<GoodsInfoVo> showSettleGoods(IdsParam idsParam);
+
+   GoodsInfoVo getGoodsById(Integer goodsId);
 }
 

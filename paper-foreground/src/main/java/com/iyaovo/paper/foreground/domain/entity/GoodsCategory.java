@@ -41,7 +41,7 @@ public class GoodsCategory {
    private Integer goodsCategoryId;
 
    /**
-    * 商品第一类别名称
+    * 商品类别名称
     */
    @TableField("goods_category_name")
    private String goodCategoryName;
@@ -51,5 +51,11 @@ public class GoodsCategory {
     */
    @TableField("category_superior_id")
    private Integer categorySuperiorId;
+
+   /**
+    * 商品url
+    */
+   @TableField("pic_url")
+   private String picUrl;
 }
 

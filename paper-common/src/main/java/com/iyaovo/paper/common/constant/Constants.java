@@ -40,5 +40,10 @@ public class Constants {
     * 买家id前缀
     */
    public static final String BUYER_ID_PREFIX = "ku";
+
+   /**
+    * 存储图片路径
+    */
+   public static final String RESOURCE_PATH = "paper-cutting-resources\\";
 }
 

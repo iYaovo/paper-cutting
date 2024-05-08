@@ -17,6 +17,8 @@ import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.common.api.CommonResult;
 import com.iyaovo.paper.foreground.domain.entity.GoodsInfo;
 import com.iyaovo.paper.foreground.domain.entity.ShopInfo;
+import com.iyaovo.paper.foreground.domain.vo.GoodsInfoVo;
+import com.iyaovo.paper.foreground.domain.vo.ShopInfoVo;
 import com.iyaovo.paper.foreground.service.IShopInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,15 +41,16 @@ public class ShopInfoController {
 
    private final IShopInfoService iShopInfoService;
 
+
    /**
     * 展示商品by店铺id
     * @param
     */
    @GetMapping("/goods/{shopId}")
    @Operation(summary = "展示商品by店铺id")
-   public CommonResult<CommonPage<GoodsInfo>> showGoodsByShopId(@PathVariable("shopId") Integer shopId,
-                                                  @RequestParam("pageNum") Integer pageNum,
-                                                  @RequestParam("pageSize") Integer pageSize) {
+   public CommonResult<CommonPage<GoodsInfoVo>> showGoodsByShopId(@PathVariable("shopId") Integer shopId,
+                                                                  @RequestParam("pageNum") Integer pageNum,
+                                                                  @RequestParam("pageSize") Integer pageSize) {
       return CommonResult.success(iShopInfoService.showGoodsByShopId(shopId,pageNum,pageSize));
    }
 
@@ -56,7 +59,7 @@ public class ShopInfoController {
     */
    @GetMapping("/{shopId}")
    @Operation(summary = "展示店铺介绍by店铺id")
-   public CommonResult<ShopInfo> showShopsByShopId(@PathVariable("shopId") Integer shopId) {
+   public CommonResult<ShopInfoVo> showShopsByShopId(@PathVariable("shopId") Integer shopId) {
       return CommonResult.success(iShopInfoService.showShopsByShopId(shopId));
    }
 

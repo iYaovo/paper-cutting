@@ -17,15 +17,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import com.github.pagehelper.PageHelper;
 import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.common.constant.Constants;
+import com.iyaovo.paper.common.util.ImageToBase64Util;
 import com.iyaovo.paper.foreground.domain.dto.IdsParam;
-import com.iyaovo.paper.foreground.domain.entity.BuyerInfo;
 import com.iyaovo.paper.foreground.domain.entity.CartInfo;
-import com.iyaovo.paper.foreground.domain.entity.GoodsCategory;
 import com.iyaovo.paper.foreground.domain.entity.GoodsInfo;
-import com.iyaovo.paper.foreground.domain.vo.CartGoodsVo;
+import com.iyaovo.paper.foreground.domain.entity.GoodsViews;
 import com.iyaovo.paper.foreground.domain.vo.GoodsInfoVo;
 import com.iyaovo.paper.foreground.mapper.*;
 import com.iyaovo.paper.foreground.service.IBuyerInfoService;
@@ -33,10 +31,9 @@ import com.iyaovo.paper.foreground.service.IGoodsInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName: GoodsInfoServiceImpl
@@ -57,6 +54,9 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
    private final CartInfoMapper cartInfoMapper;
 
    private final IBuyerInfoService iBuyerInfoService;
+
+   private final GoodsViewsMapper goodsViewsMapper;
+
 
 
 
@@ -89,18 +89,10 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
       List<GoodsInfoVo> goodsInfoVoList = new ArrayList<GoodsInfoVo>();
       goodsInfoList.forEach(goodsInfo ->{
          //entity转为vo
-         GoodsInfoVo goodsInfoVo = new GoodsInfoVo(goodsInfo.getGoodsId(),goodsInfo.getGoodsName(),goodsInfo.getGoodsIntroduction(), goodsInfo.getPicUrl(), goodsInfo.getPrice(),
+         GoodsInfoVo goodsInfoVo = new GoodsInfoVo(goodsInfo.getGoodsId(),goodsInfo.getGoodsName(),goodsInfo.getGoodsIntroduction(),ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+goodsInfo.getPicUrl()), goodsInfo.getPrice(),
                  goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber());
          //把店铺id封装到vo
          goodsInfoVo.setShopId(goodsInfo.getShopId());
-
-//         QueryWrapper<GoodsCategory> categorySecondQueryWrapper = new QueryWrapper<GoodsCategory>();
-//         categorySecondQueryWrapper.eq("goods_category_id",goodsInfo.getGoodsCategoryId());
-//         GoodsCategory goodsSecondCategory = goodsCategoryMapper.selectOne(categorySecondQueryWrapper);
-//         QueryWrapper<GoodsCategory> categoryFirstQueryWrapper = new QueryWrapper<GoodsCategory>();
-//         categoryFirstQueryWrapper.eq("goods_category_id",goodsSecondCategory.getCategorySuperiorId());
-//         GoodsCategory goodsFirstCategory = goodsCategoryMapper.selectOne(categoryFirstQueryWrapper);
-         //类别信息封装到vo
          goodsInfoVoList.add(goodsInfoVo);
       });
       return goodsInfoVoList;
@@ -126,6 +118,23 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
          goodsInfoList.add(goodsInfoMapper.selectById(goodsId));
       }
       return goodsInfoToGoodsInfoVo(goodsInfoList);
+   }
+
+   @Override
+   public GoodsInfoVo getGoodsById(Integer goodsId) {
+      QueryWrapper<GoodsViews> goodsViewsQueryWrapper = new QueryWrapper<>();
+      goodsViewsQueryWrapper.eq("goods_id",goodsId);
+      GoodsViews goodsViews = goodsViewsMapper.selectOne(goodsViewsQueryWrapper);
+      if(goodsViews == null){
+         goodsViewsMapper.insert(new GoodsViews(null,goodsId,iBuyerInfoService.getBuyerInfo().getBuyerId(),null));
+      }else{
+         goodsViews.setCreateTime(LocalDateTime.now());
+         goodsViewsMapper.updateById(goodsViews);
+      }
+      GoodsInfo goodsInfo = goodsInfoMapper.selectById(goodsId);
+      return  new GoodsInfoVo(goodsInfo.getGoodsId(),goodsInfo.getGoodsName(),goodsInfo.getGoodsIntroduction(),
+              ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+goodsInfo.getPicUrl()), goodsInfo.getPrice(),
+              goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber());
    }
 
 }

@@ -47,7 +47,7 @@ public class BuyerInfoSimpleVo {
    /**
     * 头像
     */
-   @Schema(defaultValue = "头像")
+   @Schema(defaultValue = "头像base64")
    private String picUrl;
 
    /**

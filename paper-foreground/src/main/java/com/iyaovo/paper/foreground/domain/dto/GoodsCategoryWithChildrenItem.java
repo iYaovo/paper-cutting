@@ -14,6 +14,7 @@
 package com.iyaovo.paper.foreground.domain.dto;
 
 import com.iyaovo.paper.foreground.domain.entity.GoodsCategory;
+import com.iyaovo.paper.foreground.domain.vo.GoodsCategoryVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,6 +41,6 @@ public class GoodsCategoryWithChildrenItem {
    private Integer categorySuperiorId;
 
    @Schema(defaultValue = "子级分类")
-   private List<GoodsCategory> children;
+   private List<GoodsCategoryVo> children;
 }
 

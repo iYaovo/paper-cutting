@@ -36,7 +36,7 @@ public class ShopInfo extends BaseEntity {
     /**
      * 店铺id
      */
-    @TableId(value = "shop_id",type = IdType.ASSIGN_ID)
+    @TableId(value = "shop_id",type = IdType.AUTO)
     private Integer shopId;
 
     /**
@@ -50,6 +50,5 @@ public class ShopInfo extends BaseEntity {
      */
     @TableField("pic_url")
     private String picUrl;
-
 }
 

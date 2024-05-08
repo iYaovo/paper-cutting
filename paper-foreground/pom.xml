@@ -27,6 +27,11 @@
                 <groupId>com.iyaovo.paper</groupId>
                 <artifactId>paper-security</artifactId>
             </dependency>
+            <!-- 图片-->
+            <dependency>
+                <groupId>com.iyaovo.paper</groupId>
+                <artifactId>paper-resource</artifactId>
+            </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
@@ -58,6 +63,7 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
             </dependency>
+
             <dependency>
                 <groupId>com.iyaovo.paper</groupId>
                 <artifactId>paper-security</artifactId>

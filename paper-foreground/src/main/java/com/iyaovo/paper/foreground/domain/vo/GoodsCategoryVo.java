@@ -1,8 +1,8 @@
 /**
  * Copyright (C), 2000-2024, XXX有限公司
- * FileName: BuyerInfoVo
+ * FileName: GoodsCategoryVo
  * Author: 22932
- * Date: 2024/4/22 18:00:32
+ * Date: 2024/5/8 17:10:44
  * Description:
  * <p>
  * History:
@@ -19,47 +19,42 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import lombok.NoArgsConstructor;
 
 /**
- * @ClassName: BuyerInfoVo
+ * @ClassName: GoodsCategoryVo
  * @Description: java类描述
  * @Author: 22932
- * @Date: 2024/4/22 18:00:32
+ * @Date: 2024/5/8 17:10:44
  */
-@Schema(description = "买家vo")
-@Slf4j
 @Data
 @AllArgsConstructor
-public class BuyerInfoVo {
+@NoArgsConstructor
+@Schema(defaultValue = "商品类型Vo")
+public class GoodsCategoryVo {
    /**
-    * 买家id
+    * 商品类别id
     */
-   @Schema(defaultValue = "买家id")
-   private String buyerId;
+   @Schema(defaultValue = "商品id")
+   private Integer goodsCategoryId;
 
    /**
-    * 买家名称
+    * 商品类别名称
     */
-   @Schema(defaultValue ="买家名称")
-   private String buyerName;
+   @Schema(defaultValue = "商品类别名称")
+   private String goodCategoryName;
 
    /**
-    * 买家爱好
+    * 商品上级类别id
     */
-   @Schema(defaultValue ="买家爱好")
-   private String buyerHobby;
+   @Schema(defaultValue = "商品上级类别id")
+   private Integer categorySuperiorId;
 
    /**
-    * 买家个签
+    * 商品类别url
     */
-   @Schema(defaultValue ="买家个签")
-   private String buyerAutograph;
-
-   /**
-    * 头像
-    */
-   @Schema(defaultValue ="买家头像base64")
+   @Schema(defaultValue = "商品类别url")
    private String picUrl;
+
 }
 

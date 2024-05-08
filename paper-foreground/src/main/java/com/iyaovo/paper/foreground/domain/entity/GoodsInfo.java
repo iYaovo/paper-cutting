@@ -100,7 +100,6 @@ public class GoodsInfo extends BaseEntity {
    @TableField("total_number")
    private Integer totalNumber;
 
-
 }
 
 

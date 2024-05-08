@@ -14,16 +14,21 @@
 package com.iyaovo.paper.foreground.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.iyaovo.paper.common.api.CommonPage;
+import com.iyaovo.paper.common.constant.Constants;
 import com.iyaovo.paper.common.exception.Asserts;
+import com.iyaovo.paper.common.util.ImageToBase64Util;
 import com.iyaovo.paper.foreground.bo.BuyerUserDetails;
 import com.iyaovo.paper.foreground.domain.dto.BuyerChangeInformationDto;
 import com.iyaovo.paper.foreground.domain.dto.BuyerParam;
 import com.iyaovo.paper.foreground.domain.entity.*;
 import com.iyaovo.paper.foreground.domain.vo.BuyerInfoSimpleVo;
 import com.iyaovo.paper.foreground.domain.vo.BuyerInfoVo;
+import com.iyaovo.paper.foreground.domain.vo.GoodsInfoVo;
+import com.iyaovo.paper.foreground.domain.vo.ShopInfoVo;
 import com.iyaovo.paper.foreground.mapper.*;
 import com.iyaovo.paper.foreground.service.IBuyerInfoService;
 import com.iyaovo.paper.security.util.JwtTokenUtil;
@@ -126,10 +131,6 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
     }
 
 
-    //TODO
-    @Override
-    public void changeAvatar() {
-    }
 
     /**
      * id处理
@@ -145,18 +146,19 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
         BuyerInfo buyerInfo = getBuyerInfo();
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("buyer_id",buyerInfo.getBuyerId());
-        return new BuyerInfoSimpleVo(handleId(buyerInfo.getBuyerId()),buyerInfo.getBuyerName(),buyerInfo.getPicUrl(),
+        return new BuyerInfoSimpleVo(handleId(buyerInfo.getBuyerId()),buyerInfo.getBuyerName(),ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+buyerInfo.getPicUrl()),
                 goodsCollectionMapper.selectCount(queryWrapper),shopFollowMapper.selectCount(queryWrapper),goodsViewsMapper.selectCount(queryWrapper));
     }
 
     @Override
     public BuyerInfoVo showInformation() {
         BuyerInfo buyerInfo = getBuyerInfo();
-        return new BuyerInfoVo(handleId(buyerInfo.getBuyerId()),buyerInfo.getBuyerName(),buyerInfo.getBuyerHobby(),buyerInfo.getBuyerAutograph(),buyerInfo.getPicUrl());
+        return new BuyerInfoVo(handleId(buyerInfo.getBuyerId()),buyerInfo.getBuyerName(),buyerInfo.getBuyerHobby(),buyerInfo.getBuyerAutograph(),ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+buyerInfo.getPicUrl()));
     }
 
     @Override
     public void changeInformation(BuyerChangeInformationDto buyerChangeInformationDto) {
+        //TODO 头像
         BuyerInfo buyerInfo = getBuyerInfo();
         buyerInfo.setBuyerHobby(buyerChangeInformationDto.getBuyerHobby());
         buyerInfo.setBuyerAutograph(buyerChangeInformationDto.getBuyerAutograph());
@@ -200,44 +202,84 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
     }
 
     @Override
-    public CommonPage<GoodsInfo> showGoodsCollection(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+    public CommonPage<GoodsInfoVo> showGoodsCollection(Integer pageNum, Integer pageSize) {
         QueryWrapper<GoodsCollection> goodsCollectionQueryWrapper = new QueryWrapper<GoodsCollection>();
         goodsCollectionQueryWrapper.eq("buyer_id",getBuyerInfo().getBuyerId());
-        List<GoodsCollection> goodsCollections = goodsCollectionMapper.selectList(goodsCollectionQueryWrapper);
+        Page<GoodsCollection> goodsCollectionPage = goodsCollectionMapper.selectPage(new Page<>(pageNum,pageSize), goodsCollectionQueryWrapper);
         List<GoodsInfo> goodsInfoList = new ArrayList<>();
-        goodsCollections.forEach(goodsCollection -> {
+        goodsCollectionPage.getRecords().forEach(goodsCollection -> {
             goodsInfoList.add(goodsInfoMapper.selectById(goodsCollection.getGoodsId()));
         });
-        return CommonPage.restPage(goodsInfoList);
+        List<GoodsInfoVo> goodsInfoVoList = goodsInfoToGoodsInfoVo(goodsInfoList);
+        Page<GoodsInfoVo> goodsInfoVoPage = new Page<>(pageNum,pageSize,goodsCollectionPage.getTotal());
+        goodsInfoVoPage.setPages(goodsCollectionPage.getPages());
+        goodsInfoVoPage.setRecords(goodsInfoVoList);
+        return CommonPage.restPage(goodsInfoVoPage);
     }
 
     @Override
-    public CommonPage<ShopInfo> showShopFollow(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+    public CommonPage<ShopInfoVo> showShopFollow(Integer pageNum, Integer pageSize) {
         QueryWrapper<ShopFollow> shopFollowQueryWrapper = new QueryWrapper<ShopFollow>();
         shopFollowQueryWrapper.eq("buyer_id",getBuyerInfo().getBuyerId());
-        List<ShopFollow> shopFollows = shopFollowMapper.selectList(shopFollowQueryWrapper);
-        List<ShopInfo> shopInfoList = new ArrayList<>();
-        shopFollows.forEach(shopFollow -> {
-            shopInfoList.add(shopInfoMapper.selectById(shopFollow.getShopId()));
+        Page<ShopFollow> shopFollowPage = shopFollowMapper.selectPage(new Page<>(pageNum,pageSize), shopFollowQueryWrapper);
+        List<ShopInfoVo> shopInfoVoList = new ArrayList<>();
+        shopFollowPage.getRecords().forEach(shopFollow -> {
+            ShopInfo shopInfo = shopInfoMapper.selectById(shopFollow.getShopId());
+            shopInfoVoList.add(new ShopInfoVo(shopInfo.getShopId(),shopInfo.getShopName(),ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+shopInfo.getPicUrl())));
         });
-        return CommonPage.restPage(shopInfoList);
+        return CommonPage.restPage(shopInfoVoList);
     }
 
     @Override
-    public CommonPage<GoodsInfo> showGoodsViews(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+    public CommonPage<GoodsInfoVo> showGoodsViews(Integer pageNum, Integer pageSize) {
         QueryWrapper<GoodsViews> goodsViewsQueryWrapper = new QueryWrapper<GoodsViews>();
         goodsViewsQueryWrapper.eq("buyer_id",getBuyerInfo().getBuyerId());
-        List<GoodsViews> goodsViews = goodsViewsMapper.selectList(goodsViewsQueryWrapper);
+        goodsViewsQueryWrapper.orderByDesc("create_time");
+        Page<GoodsViews> goodsViewsPage = goodsViewsMapper.selectPage(new Page<>(pageNum,pageSize), goodsViewsQueryWrapper);
         List<GoodsInfo> goodsInfoList = new ArrayList<>();
-        goodsViews.forEach(goodsView -> {
+        goodsViewsPage.getRecords().forEach(goodsView -> {
             goodsInfoList.add(goodsInfoMapper.selectById(goodsView.getGoodsId()));
         });
-        return CommonPage.restPage(goodsInfoList);
+        List<GoodsInfoVo> goodsInfoVoList = goodsInfoToGoodsInfoVo(goodsInfoList);
+        Page<GoodsInfoVo> goodsInfoVoPage = new Page<>(pageNum,pageSize,goodsViewsPage.getTotal());
+        goodsInfoVoPage.setPages(goodsViewsPage.getPages());
+        goodsInfoVoPage.setRecords(goodsInfoVoList);
+        return CommonPage.restPage(goodsInfoVoPage);
     }
 
+
+    @Override
+    public void favoriteGoods(Integer goodsId) {
+
+    }
+
+    @Override
+    public void cancelFavoriteGoods(Integer goodsId) {
+
+    }
+
+    @Override
+    public void favoriteShop(Integer shopId) {
+
+    }
+
+    @Override
+    public void cancelFavoriteShop(Integer shopId) {
+
+    }
+
+    private List<GoodsInfoVo> goodsInfoToGoodsInfoVo(List<GoodsInfo> goodsInfoList){
+        List<GoodsInfoVo> goodsInfoVoList = new ArrayList<GoodsInfoVo>();
+        goodsInfoList.forEach(goodsInfo ->{
+            //entity转为vo
+            GoodsInfoVo goodsInfoVo = new GoodsInfoVo(goodsInfo.getGoodsId(),goodsInfo.getGoodsName(),goodsInfo.getGoodsIntroduction(), ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+goodsInfo.getPicUrl()), goodsInfo.getPrice(),
+                    goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber());
+            //把店铺id封装到vo
+            goodsInfoVo.setShopId(goodsInfo.getShopId());
+            goodsInfoVoList.add(goodsInfoVo);
+        });
+        return goodsInfoVoList;
+    }
 
 }
 
