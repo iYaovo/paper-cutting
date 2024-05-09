@@ -63,8 +63,11 @@ public class GoodsInfoVo {
     @Schema(defaultValue = "店铺id")
     private Integer shopId;
 
+    @Schema(defaultValue = "是否被收藏")
+    private Boolean isCollection;
 
-    public GoodsInfoVo(Integer goodsId, String goodsName, String goodsIntroduction, String picUrl, BigDecimal price, BigDecimal promotionPrice, Integer soldNumber, Integer totalNumber) {
+
+    public GoodsInfoVo(Integer goodsId, String goodsName, String goodsIntroduction, String picUrl, BigDecimal price, BigDecimal promotionPrice, Integer soldNumber, Integer totalNumber,Integer shopId) {
         this.goodsId = goodsId;
         this.goodsName = goodsName;
         this.goodsIntroduction = goodsIntroduction;
@@ -73,6 +76,7 @@ public class GoodsInfoVo {
         this.promotionPrice = promotionPrice;
         this.soldNumber = soldNumber;
         this.totalNumber = totalNumber;
+        this.shopId = shopId;
     }
 
 

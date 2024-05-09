@@ -13,10 +13,10 @@
  */
 package com.iyaovo.paper.foreground.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageHelper;
 import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.common.constant.Constants;
 import com.iyaovo.paper.common.exception.Asserts;
@@ -42,8 +42,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -158,10 +156,16 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
 
     @Override
     public void changeInformation(BuyerChangeInformationDto buyerChangeInformationDto) {
-        //TODO 头像
         BuyerInfo buyerInfo = getBuyerInfo();
-        buyerInfo.setBuyerHobby(buyerChangeInformationDto.getBuyerHobby());
-        buyerInfo.setBuyerAutograph(buyerChangeInformationDto.getBuyerAutograph());
+        if (!buyerChangeInformationDto.getBuyerAutograph().isEmpty()){
+            buyerInfo.setBuyerAutograph(buyerChangeInformationDto.getBuyerAutograph());
+        }
+        if (!buyerChangeInformationDto.getPicUrl().isEmpty()){
+            buyerInfo.setPicUrl(buyerChangeInformationDto.getPicUrl());
+        }
+        if (!buyerChangeInformationDto.getBuyerHobby().isEmpty()){
+            buyerInfo.setBuyerHobby(buyerChangeInformationDto.getBuyerHobby());
+        }
         buyerInfoMapper.updateById(buyerInfo);
     }
 
@@ -273,9 +277,16 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
         goodsInfoList.forEach(goodsInfo ->{
             //entity转为vo
             GoodsInfoVo goodsInfoVo = new GoodsInfoVo(goodsInfo.getGoodsId(),goodsInfo.getGoodsName(),goodsInfo.getGoodsIntroduction(), ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+goodsInfo.getPicUrl()), goodsInfo.getPrice(),
-                    goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber());
-            //把店铺id封装到vo
-            goodsInfoVo.setShopId(goodsInfo.getShopId());
+                    goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber(),goodsInfo.getShopId());
+            QueryWrapper<GoodsCollection> goodsCollectionQueryWrapper = new QueryWrapper<>();
+            goodsCollectionQueryWrapper.eq("goods_id",goodsInfo.getGoodsId())
+                    .eq("buyer_id",getBuyerInfo().getBuyerId());
+            GoodsCollection goodsCollection = goodsCollectionMapper.selectOne(goodsCollectionQueryWrapper);
+            if(ObjectUtil.isEmpty(goodsCollection)){
+                goodsInfoVo.setIsCollection(false);
+            }else{
+                goodsInfoVo.setIsCollection(true);
+            }
             goodsInfoVoList.add(goodsInfoVo);
         });
         return goodsInfoVoList;

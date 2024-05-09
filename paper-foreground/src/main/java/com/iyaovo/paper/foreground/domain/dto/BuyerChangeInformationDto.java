@@ -37,5 +37,8 @@ public class BuyerChangeInformationDto {
     @Schema(defaultValue = "买家个签")
     private String buyerAutograph;
 
+    @Schema(defaultValue = "买家头像url")
+    private String picUrl;
+
 }
 

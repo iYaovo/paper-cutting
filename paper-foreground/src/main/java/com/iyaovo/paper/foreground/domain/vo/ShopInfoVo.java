@@ -49,5 +49,17 @@ public class ShopInfoVo {
     */
    @Schema(defaultValue = "店铺图片base64形式")
    private String picUrl;
+
+   /**
+    * 店铺是否被关注
+    */
+   @Schema(defaultValue = "店铺是否被关注")
+   private Boolean isFavorite;
+
+   public ShopInfoVo(Integer shopId, String shopName, String picUrl) {
+      this.shopId = shopId;
+      this.shopName = shopName;
+      this.picUrl = picUrl;
+   }
 }
 

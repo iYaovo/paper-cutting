@@ -13,18 +13,24 @@
  */
 package com.iyaovo.paper.foreground.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.common.constant.Constants;
 import com.iyaovo.paper.common.util.ImageToBase64Util;
+import com.iyaovo.paper.foreground.domain.entity.GoodsCollection;
 import com.iyaovo.paper.foreground.domain.entity.GoodsInfo;
+import com.iyaovo.paper.foreground.domain.entity.ShopFollow;
 import com.iyaovo.paper.foreground.domain.entity.ShopInfo;
 import com.iyaovo.paper.foreground.domain.vo.GoodsInfoVo;
 import com.iyaovo.paper.foreground.domain.vo.ShopInfoVo;
+import com.iyaovo.paper.foreground.mapper.GoodsCollectionMapper;
 import com.iyaovo.paper.foreground.mapper.GoodsInfoMapper;
+import com.iyaovo.paper.foreground.mapper.ShopFollowMapper;
 import com.iyaovo.paper.foreground.mapper.ShopInfoMapper;
+import com.iyaovo.paper.foreground.service.IBuyerInfoService;
 import com.iyaovo.paper.foreground.service.IGoodsInfoService;
 import com.iyaovo.paper.foreground.service.IShopInfoService;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +55,12 @@ public class ShopInfoServiceImpl extends ServiceImpl<ShopInfoMapper, ShopInfo> i
 
    private final GoodsInfoMapper goodsInfoMapper;
 
+   private final GoodsCollectionMapper goodsCollectionMapper;
+
+   private final IBuyerInfoService iBuyerInfoService;
+
+   private final ShopFollowMapper shopFollowMapper;
+
    @Override
    public CommonPage<GoodsInfoVo> showGoodsByShopId(Integer shopId, Integer pageNum, Integer pageSize) {
       QueryWrapper<GoodsInfo> goodsInfoQueryWrapper = new QueryWrapper<GoodsInfo>();
@@ -60,9 +72,16 @@ public class ShopInfoServiceImpl extends ServiceImpl<ShopInfoMapper, ShopInfo> i
          //entity转为vo
          GoodsInfoVo goodsInfoVo = new GoodsInfoVo(goodsInfo.getGoodsId(),goodsInfo.getGoodsName(),goodsInfo.getGoodsIntroduction(),
                  ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+goodsInfo.getPicUrl()), goodsInfo.getPrice(),
-                 goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber());
-         //把店铺id封装到vo
-         goodsInfoVo.setShopId(goodsInfo.getShopId());
+                 goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber(),goodsInfo.getShopId());
+         QueryWrapper<GoodsCollection> goodsCollectionQueryWrapper = new QueryWrapper<>();
+         goodsCollectionQueryWrapper.eq("goods_id",goodsInfo.getGoodsId())
+                 .eq("buyer_id",iBuyerInfoService.getBuyerInfo().getBuyerId());
+         GoodsCollection goodsCollection = goodsCollectionMapper.selectOne(goodsCollectionQueryWrapper);
+         if(ObjectUtil.isEmpty(goodsCollection)){
+            goodsInfoVo.setIsCollection(false);
+         }else{
+            goodsInfoVo.setIsCollection(true);
+         }
          goodsInfoVoList.add(goodsInfoVo);
       });
       Page<GoodsInfoVo> goodsInfoVoPage = new Page<>(pageNum,pageSize,goodsInfoPage.getTotal());
@@ -75,7 +94,17 @@ public class ShopInfoServiceImpl extends ServiceImpl<ShopInfoMapper, ShopInfo> i
    @Override
    public ShopInfoVo showShopsByShopId(Integer shopId) {
       ShopInfo shopInfo = shopInfoMapper.selectById(shopId);
-      return new ShopInfoVo(shopInfo.getShopId(),shopInfo.getShopName(),ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+shopInfo.getPicUrl()));
+      ShopInfoVo shopInfoVo = new ShopInfoVo(shopInfo.getShopId(), shopInfo.getShopName(), ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH + shopInfo.getPicUrl()));
+      QueryWrapper<ShopFollow> shopFollowQueryWrapper = new QueryWrapper<>();
+      shopFollowQueryWrapper.eq("shop_id",shopId)
+              .eq("buyer_id",iBuyerInfoService.getBuyerInfo().getBuyerId());
+      ShopFollow shopFollow = shopFollowMapper.selectOne(shopFollowQueryWrapper);
+      if(ObjectUtil.isEmpty(shopFollow)){
+         shopInfoVo.setIsFavorite(false);
+      }else{
+         shopInfoVo.setIsFavorite(true);
+      }
+      return shopInfoVo;
    }
 
 }

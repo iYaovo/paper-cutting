@@ -110,16 +110,6 @@ public class BuyerInfoController {
    }
 
    /**
-    * 更换头像
-    * @return
-    */
-   @PostMapping("/changeAvatar")
-   @Operation(summary = "用户更换头像")
-   public CommonResult changeAvatar() {
-      return CommonResult.success();
-   }
-
-   /**
     * 更改信息
     * @param buyerChangeInformationDto
     * @return

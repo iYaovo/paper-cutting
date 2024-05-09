@@ -35,13 +35,5 @@ public class CartGoodsVo extends GoodsInfoVo{
    public CartGoodsVo() {
    }
 
-   public CartGoodsVo(Integer goodsId, String goodsName, String goodsIntroduction, String picUrl, BigDecimal price, BigDecimal promotionPrice, Integer soldNumber, Integer totalNumber, Integer goodsNumber) {
-      super(goodsId, goodsName, goodsIntroduction, picUrl, price, promotionPrice, soldNumber, totalNumber);
-   }
-
-   public CartGoodsVo toCartGoodsVo(GoodsInfoVo goodsInfoVo,Integer goodsNumber){
-      return new CartGoodsVo(goodsInfoVo.getGoodsId(),goodsInfoVo.getGoodsName(), goodsInfoVo.getGoodsIntroduction(),
-              goodsInfoVo.getPicUrl(),goodsInfoVo.getPrice(),goodsInfoVo.getPromotionPrice(),goodsInfoVo.getSoldNumber(),goodsInfoVo.getTotalNumber(),goodsNumber);
-   }
 }
 
