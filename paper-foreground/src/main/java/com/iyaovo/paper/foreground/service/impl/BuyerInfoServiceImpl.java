@@ -45,7 +45,9 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -75,6 +77,8 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
     private final ShopInfoMapper shopInfoMapper;
 
     private final DailySignMapper dailySignMapper;
+
+    private final CartInfoMapper cartInfoMapper;
 
     @Override
     public BuyerInfo getBuyerInfo() {
@@ -254,22 +258,28 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
 
     @Override
     public void favoriteGoods(Integer goodsId) {
-
+        goodsCollectionMapper.insert(new GoodsCollection(null,goodsId, getBuyerInfo().getBuyerId(), null));
     }
 
     @Override
     public void cancelFavoriteGoods(Integer goodsId) {
-
+        QueryWrapper<GoodsCollection> goodsCollectionQueryWrapper = new QueryWrapper<>();
+        goodsCollectionQueryWrapper.eq("goods_id",goodsId)
+                        .eq("buyer_id",getBuyerInfo().getBuyerId());
+        goodsCollectionMapper.delete(goodsCollectionQueryWrapper);
     }
 
     @Override
     public void favoriteShop(Integer shopId) {
-
+        shopFollowMapper.insert(new ShopFollow(null,shopId,getBuyerInfo().getBuyerId(),null));
     }
 
     @Override
     public void cancelFavoriteShop(Integer shopId) {
-
+        QueryWrapper<ShopFollow> shopFollowQueryWrapper = new QueryWrapper<>();
+        shopFollowQueryWrapper.eq("shop_id",shopId)
+                .eq("buyer_id",getBuyerInfo().getBuyerId());
+        shopFollowMapper.delete(shopFollowQueryWrapper);
     }
 
     private List<GoodsInfoVo> goodsInfoToGoodsInfoVo(List<GoodsInfo> goodsInfoList){
@@ -278,6 +288,7 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
             //entity转为vo
             GoodsInfoVo goodsInfoVo = new GoodsInfoVo(goodsInfo.getGoodsId(),goodsInfo.getGoodsName(),goodsInfo.getGoodsIntroduction(), ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+goodsInfo.getPicUrl()), goodsInfo.getPrice(),
                     goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber(),goodsInfo.getShopId());
+            //判断商品是否被收藏
             QueryWrapper<GoodsCollection> goodsCollectionQueryWrapper = new QueryWrapper<>();
             goodsCollectionQueryWrapper.eq("goods_id",goodsInfo.getGoodsId())
                     .eq("buyer_id",getBuyerInfo().getBuyerId());
@@ -286,6 +297,16 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
                 goodsInfoVo.setIsCollection(false);
             }else{
                 goodsInfoVo.setIsCollection(true);
+            }
+            //判断商品是否被加入购物车
+            QueryWrapper<CartInfo> cartInfoQueryWrapper = new QueryWrapper<>();
+            cartInfoQueryWrapper.eq("goods_id",goodsInfo.getGoodsId())
+                    .eq("buyer_id",getBuyerInfo().getBuyerId());
+            CartInfo cartInfo = cartInfoMapper.selectOne(cartInfoQueryWrapper);
+            if(ObjectUtil.isEmpty(cartInfo)){
+                goodsInfoVo.setIsJoinCart(false);
+            }else{
+                goodsInfoVo.setIsJoinCart(true);
             }
             goodsInfoVoList.add(goodsInfoVo);
         });

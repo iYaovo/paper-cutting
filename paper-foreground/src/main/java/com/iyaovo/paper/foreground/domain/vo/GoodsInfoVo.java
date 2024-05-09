@@ -66,6 +66,9 @@ public class GoodsInfoVo {
     @Schema(defaultValue = "是否被收藏")
     private Boolean isCollection;
 
+    @Schema(defaultValue = "是否加入购物车")
+    private Boolean isJoinCart;
+
 
     public GoodsInfoVo(Integer goodsId, String goodsName, String goodsIntroduction, String picUrl, BigDecimal price, BigDecimal promotionPrice, Integer soldNumber, Integer totalNumber,Integer shopId) {
         this.goodsId = goodsId;

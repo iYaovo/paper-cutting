@@ -20,16 +20,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.common.constant.Constants;
 import com.iyaovo.paper.common.util.ImageToBase64Util;
-import com.iyaovo.paper.foreground.domain.entity.GoodsCollection;
-import com.iyaovo.paper.foreground.domain.entity.GoodsInfo;
-import com.iyaovo.paper.foreground.domain.entity.ShopFollow;
-import com.iyaovo.paper.foreground.domain.entity.ShopInfo;
+import com.iyaovo.paper.foreground.domain.entity.*;
 import com.iyaovo.paper.foreground.domain.vo.GoodsInfoVo;
 import com.iyaovo.paper.foreground.domain.vo.ShopInfoVo;
-import com.iyaovo.paper.foreground.mapper.GoodsCollectionMapper;
-import com.iyaovo.paper.foreground.mapper.GoodsInfoMapper;
-import com.iyaovo.paper.foreground.mapper.ShopFollowMapper;
-import com.iyaovo.paper.foreground.mapper.ShopInfoMapper;
+import com.iyaovo.paper.foreground.mapper.*;
 import com.iyaovo.paper.foreground.service.IBuyerInfoService;
 import com.iyaovo.paper.foreground.service.IGoodsInfoService;
 import com.iyaovo.paper.foreground.service.IShopInfoService;
@@ -61,6 +55,8 @@ public class ShopInfoServiceImpl extends ServiceImpl<ShopInfoMapper, ShopInfo> i
 
    private final ShopFollowMapper shopFollowMapper;
 
+   private final CartInfoMapper cartInfoMapper;
+
    @Override
    public CommonPage<GoodsInfoVo> showGoodsByShopId(Integer shopId, Integer pageNum, Integer pageSize) {
       QueryWrapper<GoodsInfo> goodsInfoQueryWrapper = new QueryWrapper<GoodsInfo>();
@@ -82,6 +78,18 @@ public class ShopInfoServiceImpl extends ServiceImpl<ShopInfoMapper, ShopInfo> i
          }else{
             goodsInfoVo.setIsCollection(true);
          }
+         //判断商品是否被加入购物车
+         QueryWrapper<CartInfo> cartInfoQueryWrapper = new QueryWrapper<>();
+         cartInfoQueryWrapper.eq("goods_id",goodsInfo.getGoodsId())
+                 .eq("buyer_id",iBuyerInfoService.getBuyerInfo().getBuyerId());
+         CartInfo cartInfo = cartInfoMapper.selectOne(cartInfoQueryWrapper);
+         if(ObjectUtil.isEmpty(cartInfo)){
+            goodsInfoVo.setIsJoinCart(false);
+         }else{
+            goodsInfoVo.setIsJoinCart(true);
+         }
+
+
          goodsInfoVoList.add(goodsInfoVo);
       });
       Page<GoodsInfoVo> goodsInfoVoPage = new Page<>(pageNum,pageSize,goodsInfoPage.getTotal());

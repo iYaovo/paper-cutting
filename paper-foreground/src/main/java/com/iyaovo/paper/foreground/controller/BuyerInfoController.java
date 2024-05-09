@@ -199,5 +199,54 @@ public class BuyerInfoController {
    public CommonResult showGoodsViews(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
       return CommonResult.success(iBuyerInfoService.showGoodsViews(pageNum,pageSize));
    }
+
+   /**
+    * 收藏商品
+    * @param goodsId
+    * @return
+    */
+   @GetMapping("/favoriteGoods/{goodsId}")
+   @Operation(summary = "收藏商品")
+   public CommonResult favoriteGoods(@PathVariable("goodsId") Integer goodsId) {
+      iBuyerInfoService.favoriteGoods(goodsId);
+      return CommonResult.success();
+   }
+
+   /**
+    * 取消收藏商品
+    * @param goodsId
+    * @return
+    */
+   @GetMapping("/cancelFavoriteGoods/{goodsId}")
+   @Operation(summary = "取消收藏商品")
+   public CommonResult cancelFavoriteGoods(@PathVariable("goodsId") Integer goodsId) {
+      iBuyerInfoService.cancelFavoriteGoods(goodsId);
+      return CommonResult.success();
+   }
+
+   /**
+    * 关注店铺
+    * @param shopId
+    * @return
+    */
+   @GetMapping("/favoriteShop/{shopId}")
+   @Operation(summary = "关注店铺")
+   public CommonResult favoriteShop(@PathVariable("shopId") Integer shopId) {
+      iBuyerInfoService.favoriteShop(shopId);
+      return CommonResult.success();
+   }
+
+   /**
+    * 关注店铺
+    * @param shopId
+    * @return
+    */
+   @GetMapping("/cancelFavoriteShop/{shopId}")
+   @Operation(summary = "取消关注店铺")
+   public CommonResult cancelFavoriteShop(@PathVariable("shopId") Integer shopId) {
+      iBuyerInfoService.cancelFavoriteShop(shopId);
+      return CommonResult.success();
+   }
+
 }
 

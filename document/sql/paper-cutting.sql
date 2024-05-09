@@ -16,33 +16,25 @@
 
 
 -- 导出 paper-cutting 的数据库结构
-CREATE DATABASE IF NOT EXISTS `paper-cutting` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `paper-cutting` /*!40100 DEFAULT CHARACTER SET utf8mb4   */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `paper-cutting`;
 
 -- 导出  表 paper-cutting.buyer_info 结构
 CREATE TABLE IF NOT EXISTS `buyer_info` (
                                             `buyer_id` bigint NOT NULL,
-                                            `buyer_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '买家账号',
-    `buyer_password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '买家密码',
-    `buyer_hobby` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '买家爱好',
-    `buyer_autograph` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-    `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '头像',
+                                            `buyer_name` varchar(50) CHARACTER SET utf8mb4  NOT NULL COMMENT '买家账号',
+    `buyer_password` varchar(200) CHARACTER SET utf8mb4  NOT NULL COMMENT '买家密码',
+    `buyer_hobby` varchar(200) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '买家爱好',
+    `buyer_autograph` varchar(200) CHARACTER SET utf8mb4  DEFAULT NULL,
+    `pic_url` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '头像',
     `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '逻辑删除(默认0)'
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='买家信息表';
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4     COMMENT='买家信息表';
 
 -- 正在导出表  paper-cutting.buyer_info 的数据：~9 rows (大约)
 INSERT INTO `buyer_info` (`buyer_id`, `buyer_name`, `buyer_password`, `buyer_hobby`, `buyer_autograph`, `pic_url`, `create_time`, `update_time`, `del_flag`) VALUES
-                                                                                                                                                                 (1782381108064657409, 'admin', '$2a$10$y.NBngNh6H1HRJtPFrxAo.mf9f8LCDAz.V8br6EAehIT4Tt1EVsO6', '买家爱好', '买家个签', NULL, '2024-04-22 12:09:05', '2024-04-22 12:09:05', b'0'),
-                                                                                                                                                                 (1782381134824316929, 'admi', '$2a$10$JiNm1L1dWMo.mlAXDCa4FODWeWDNJclTRgisLKYMkwbdZmjGsKcpC', NULL, NULL, NULL, '2024-04-22 12:09:12', '2024-04-22 12:09:12', b'0'),
-                                                                                                                                                                 (1782381148883623938, 'adm', '$2a$10$b9g05KUzDqLgTWv9jGS6GOse6NIvXSCEM7KUYITZ1yuLAXtJKA7lC', NULL, NULL, NULL, '2024-04-22 12:09:15', '2024-04-22 12:09:15', b'0'),
-                                                                                                                                                                 (1782381159910449153, 'ad', '$2a$10$KyscoVDTOiMp/Lv7drBYuebBi5K5sgFMcGRrxWZgVR0kNSsjoOrl2', NULL, NULL, NULL, '2024-04-22 12:09:18', '2024-04-22 12:09:18', b'0'),
-                                                                                                                                                                 (1782381167762186242, 'a', '$2a$10$uHbmjgOXZcH/sgl3O78prucUEVdRouTD/9HHZRSejm2o5ZRjcDRlq', NULL, NULL, NULL, '2024-04-22 12:09:20', '2024-04-22 12:09:20', b'0'),
-                                                                                                                                                                 (1782381711926992898, 'a1155', '$2a$10$5KkTkZixHRVDiv6jHHPouuqtJb2TdxXMx2MFY50FCxDmxtSf7JsbC', NULL, NULL, NULL, '2024-04-22 12:11:29', '2024-04-22 12:11:29', b'0'),
-                                                                                                                                                                 (1782381753219915778, 'a11556', '$2a$10$WLiV4W/PeqtXXJOMmRrRSOzzcU/eWHxooicVhE0NgfmBWP6oS.J5W', NULL, NULL, NULL, '2024-04-22 12:11:39', '2024-04-22 12:11:39', b'0'),
-                                                                                                                                                                 (1782381793145495553, 'a11557', '$2a$10$5/JsFJt/GZ6eGPSDZ6AOq.i/.Kg2J0U12jAIeHsnHzE9fpEvKmAlu', NULL, NULL, NULL, '2024-04-22 12:11:49', '2024-04-22 12:11:49', b'0'),
-                                                                                                                                                                 (1782381820895010817, 'a11558', '$2a$10$G3/5P/9uRmMBud6RH40s0OSC.sZJ9VVcgE8E.L0YjqoGb88X.38RW', NULL, NULL, NULL, '2024-04-22 12:11:55', '2024-04-22 12:11:55', b'0');
+    (1782381108064657409, 'admin', '$2a$10$y.NBngNh6H1HRJtPFrxAo.mf9f8LCDAz.V8br6EAehIT4Tt1EVsO6', '3', '3', '', '2024-04-22 12:09:05', '2024-05-08 09:26:55', b'0');
 
 -- 导出  表 paper-cutting.cart_info 结构
 CREATE TABLE IF NOT EXISTS `cart_info` (
@@ -51,9 +43,13 @@ CREATE TABLE IF NOT EXISTS `cart_info` (
                                            `goods_id` int NOT NULL DEFAULT '0' COMMENT '商品id',
                                            `goods_number` int NOT NULL DEFAULT '1' COMMENT '购物车中商品数量',
                                            PRIMARY KEY (`cart_id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4    ;
 
 -- 正在导出表  paper-cutting.cart_info 的数据：~0 rows (大约)
+INSERT INTO `cart_info` (`cart_id`, `buyer_id`, `goods_id`, `goods_number`) VALUES
+                                                                                (9, 1782381108064657409, 1, 5),
+                                                                                (10, 1782381108064657409, 3, 1),
+                                                                                (11, 1782381108064657409, 5, 1);
 
 -- 导出  表 paper-cutting.daily_sign 结构
 CREATE TABLE IF NOT EXISTS `daily_sign` (
@@ -61,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `daily_sign` (
                                             `buyer_id` bigint NOT NULL COMMENT '买家id',
                                             `sign_time` varchar(50) NOT NULL COMMENT '签到时间',
     PRIMARY KEY (`daily_sign_id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='每日签到表';
+    ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4     COMMENT='每日签到表';
 
 -- 正在导出表  paper-cutting.daily_sign 的数据：~3 rows (大约)
 INSERT INTO `daily_sign` (`daily_sign_id`, `buyer_id`, `sign_time`) VALUES
@@ -74,13 +70,13 @@ CREATE TABLE IF NOT EXISTS `discuss_info` (
                                               `discuss_id` int NOT NULL AUTO_INCREMENT COMMENT '主键id',
                                               `buyer_id` bigint NOT NULL COMMENT '用户id',
                                               `parent_id` int NOT NULL COMMENT '讨论父id(0为一级讨论)',
-                                              `discuss_content` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT '讨论内容',
+                                              `discuss_content` varchar(255)   NOT NULL COMMENT '讨论内容',
     `favorite_number` int NOT NULL DEFAULT '0' COMMENT '点赞数',
     `comment_number` int NOT NULL DEFAULT '0' COMMENT '评论数',
     PRIMARY KEY (`discuss_id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='广场讨论表';
+    ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4     COMMENT='广场讨论表';
 
--- 正在导出表  paper-cutting.discuss_info 的数据：~0 rows (大约)
+-- 正在导出表  paper-cutting.discuss_info 的数据：~4 rows (大约)
 INSERT INTO `discuss_info` (`discuss_id`, `buyer_id`, `parent_id`, `discuss_content`, `favorite_number`, `comment_number`) VALUES
                                                                                                                                (1, 1782381108064657409, 0, '一级评论1', 0, 0),
                                                                                                                                (2, 1782381108064657409, 0, '一级评论2', 1, 1),
@@ -90,11 +86,11 @@ INSERT INTO `discuss_info` (`discuss_id`, `buyer_id`, `parent_id`, `discuss_cont
 -- 导出  表 paper-cutting.goods_category 结构
 CREATE TABLE IF NOT EXISTS `goods_category` (
                                                 `goods_category_id` tinyint unsigned NOT NULL AUTO_INCREMENT,
-                                                `goods_category_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '第一类别名称',
+                                                `goods_category_name` varchar(50) CHARACTER SET utf8mb4  NOT NULL COMMENT '类别名称',
     `pic_url` varchar(255) NOT NULL COMMENT '类别url',
     `category_superior_id` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '0即为上级分类',
     PRIMARY KEY (`goods_category_id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品第一类别表';
+    ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4     COMMENT='商品第一类别表';
 
 -- 正在导出表  paper-cutting.goods_category 的数据：~16 rows (大约)
 INSERT INTO `goods_category` (`goods_category_id`, `goods_category_name`, `pic_url`, `category_superior_id`) VALUES
@@ -108,12 +104,12 @@ INSERT INTO `goods_category` (`goods_category_id`, `goods_category_name`, `pic_u
                                                                                                                  (8, '喜字', '', 0),
                                                                                                                  (9, '党史党建', '', 0),
                                                                                                                  (10, '剪纸定制', '', 0),
-                                                                                                                 (12, '牛', '', 2),
-                                                                                                                 (14, '马', ' ', 2),
-                                                                                                                 (15, '猴', ' ', 2),
-                                                                                                                 (16, '吴昕开', ' ', 3),
-                                                                                                                 (17, '无心恺', ' ', 3),
-                                                                                                                 (18, '武信铠', ' ', 3);
+                                                                                                                 (12, '牛', 'Image\\2024-05-08CDCM.png', 2),
+                                                                                                                 (14, '马', 'Image\\2024-05-08CDCM.png', 2),
+                                                                                                                 (15, '猴', 'Image\\2024-05-08CDCM.png', 2),
+                                                                                                                 (16, '吴昕开', 'Image\\2024-05-08CDCM.png', 3),
+                                                                                                                 (17, '无心恺', 'Image\\2024-05-08CDCM.png', 3),
+                                                                                                                 (18, '武信铠', 'Image\\2024-05-08CDCM.png', 3);
 
 -- 导出  表 paper-cutting.goods_collection 结构
 CREATE TABLE IF NOT EXISTS `goods_collection` (
@@ -122,11 +118,12 @@ CREATE TABLE IF NOT EXISTS `goods_collection` (
                                                   `buyer_id` bigint NOT NULL COMMENT '用户id',
                                                   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '收藏时间',
                                                   PRIMARY KEY (`goods_collection_id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品收藏';
+    ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4     COMMENT='商品收藏';
 
--- 正在导出表  paper-cutting.goods_collection 的数据：~0 rows (大约)
+-- 正在导出表  paper-cutting.goods_collection 的数据：~1 rows (大约)
 INSERT INTO `goods_collection` (`goods_collection_id`, `goods_id`, `buyer_id`, `create_time`) VALUES
-    (1, 1, 1782381108064657409, '2024-04-23 07:18:59');
+                                                                                                  (1, 1, 1782381108064657409, '2024-04-23 07:18:59'),
+                                                                                                  (3, 3, 1782381108064657409, '2024-05-09 08:43:50');
 
 -- 导出  表 paper-cutting.goods_info 结构
 CREATE TABLE IF NOT EXISTS `goods_info` (
@@ -135,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `goods_info` (
                                             `shop_id` int NOT NULL DEFAULT '0' COMMENT '店铺id',
                                             `goods_name` varchar(50) NOT NULL COMMENT '商品名称',
     `goods_introduction` varchar(255) NOT NULL COMMENT '商品描述',
-    `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品标题图片',
+    `pic_url` varchar(255) CHARACTER SET utf8mb4  NOT NULL COMMENT '商品标题图片',
     `price` decimal(10,2) NOT NULL COMMENT '商品原价',
     `promotion_price` decimal(10,2) NOT NULL COMMENT '促销价格',
     `sold_number` int NOT NULL DEFAULT '0' COMMENT '已售数量',
@@ -144,29 +141,32 @@ CREATE TABLE IF NOT EXISTS `goods_info` (
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '逻辑删除(默认0)',
     PRIMARY KEY (`goods_id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品信息表';
+    ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4     COMMENT='商品信息表';
 
 -- 正在导出表  paper-cutting.goods_info 的数据：~6 rows (大约)
 INSERT INTO `goods_info` (`goods_id`, `goods_category_id`, `shop_id`, `goods_name`, `goods_introduction`, `pic_url`, `price`, `promotion_price`, `sold_number`, `total_number`, `create_time`, `update_time`, `del_flag`) VALUES
-                                                                                                                                                                                                                              (1, 12, 1, '大牛', '大牛介绍', '大牛logo', 100.00, 50.00, 0, 10052, '2024-04-16 07:13:24', '2024-04-24 13:28:11', b'0'),
-                                                                                                                                                                                                                              (3, 12, 1, '大小牛', '大小牛介绍', '大小牛logo', 100.00, 50.00, 0, 10052, '2024-04-23 05:34:20', '2024-04-24 13:28:14', b'0'),
-                                                                                                                                                                                                                              (5, 12, 1, '小牛', '小牛介绍', '小牛logo', 50.00, 25.00, 0, 10000, '2024-04-24 13:04:51', '2024-04-24 13:04:51', b'0'),
-                                                                                                                                                                                                                              (6, 15, 1, '小猴猴', '小猴猴介绍', '小猴猴logo', 50.00, 25.00, 0, 10000, '2024-04-24 13:29:03', '2024-04-24 13:29:03', b'0'),
-                                                                                                                                                                                                                              (7, 15, 1, '小小猴猴猴猴', '小小猴猴猴猴介绍', '小小猴猴猴猴logo', 5000.00, 2500.00, 0, 1000000, '2024-04-24 13:29:23', '2024-04-24 13:29:23', b'0'),
-                                                                                                                                                                                                                              (8, 15, 722354179, '小小猴', '小小猴介绍', '小小猴logo', 5000.00, 2500.00, 0, 1000000, '2024-04-24 13:30:19', '2024-04-24 13:30:19', b'0');
+                                                                                                                                                                                                                              (1, 12, 1, '大牛', '大牛介绍', 'Image\\2024-05-08CDCM.png', 100.00, 50.00, 0, 10052, '2024-04-16 07:13:24', '2024-05-08 08:46:50', b'0'),
+                                                                                                                                                                                                                              (3, 12, 1, '大小牛', '大小牛介绍', 'Image\\2024-05-08CDCM.png', 100.00, 50.00, 0, 10052, '2024-04-23 05:34:20', '2024-05-08 08:46:54', b'0'),
+                                                                                                                                                                                                                              (5, 12, 1, '小牛', '小牛介绍', 'Image\\2024-05-08CDCM.png', 50.00, 25.00, 0, 10000, '2024-04-24 13:04:51', '2024-05-08 08:46:56', b'0'),
+                                                                                                                                                                                                                              (6, 15, 1, '小猴猴', '小猴猴介绍', 'Image\\2024-05-08CDCM.png', 50.00, 25.00, 0, 10000, '2024-04-24 13:29:03', '2024-05-08 08:46:57', b'0'),
+                                                                                                                                                                                                                              (7, 15, 1, '小小猴猴猴猴', '小小猴猴猴猴介绍', 'Image\\2024-05-08CDCM.png', 5000.00, 2500.00, 0, 1000000, '2024-04-24 13:29:23', '2024-05-08 08:46:57', b'0'),
+                                                                                                                                                                                                                              (8, 15, 722354179, '小小猴', '小小猴介绍', 'Image\\2024-05-08CDCM.png', 5000.00, 2500.00, 0, 1000000, '2024-04-24 13:30:19', '2024-05-08 08:46:58', b'0');
 
 -- 导出  表 paper-cutting.goods_views 结构
 CREATE TABLE IF NOT EXISTS `goods_views` (
                                              `goods_views_id` int unsigned NOT NULL AUTO_INCREMENT,
                                              `goods_id` int NOT NULL COMMENT '商品id',
                                              `buyer_id` bigint NOT NULL COMMENT '用户id',
-                                             `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '浏览时间',
+                                             `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '浏览时间',
                                              PRIMARY KEY (`goods_views_id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='近期浏览商品';
+    ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4     COMMENT='近期浏览商品';
 
--- 正在导出表  paper-cutting.goods_views 的数据：~2 rows (大约)
+-- 正在导出表  paper-cutting.goods_views 的数据：~4 rows (大约)
 INSERT INTO `goods_views` (`goods_views_id`, `goods_id`, `buyer_id`, `create_time`) VALUES
-    (1, 1, 1782381108064657409, '2024-04-23 06:47:48');
+                                                                                        (5, 1, 1782381108064657409, '2024-05-09 08:46:54'),
+                                                                                        (6, 3, 1782381108064657409, '2024-05-09 04:46:53'),
+                                                                                        (7, 5, 1782381108064657409, '2024-05-09 04:46:54'),
+                                                                                        (8, 6, 1782381108064657409, '2024-05-09 04:46:56');
 
 -- 导出  表 paper-cutting.order_info 结构
 CREATE TABLE IF NOT EXISTS `order_info` (
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `order_info` (
                                             `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                             `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '逻辑删除(默认0)',
     PRIMARY KEY (`order_id`) USING BTREE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单信息表';
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4     COMMENT='订单信息表';
 
 -- 正在导出表  paper-cutting.order_info 的数据：~2 rows (大约)
 INSERT INTO `order_info` (`order_id`, `goods_id`, `buyer_id`, `receiving_address_id`, `order_status`, `create_time`, `update_time`, `del_flag`) VALUES
@@ -190,12 +190,12 @@ INSERT INTO `order_info` (`order_id`, `goods_id`, `buyer_id`, `receiving_address
 CREATE TABLE IF NOT EXISTS `receiving_address` (
                                                    `receiving_address_id` int unsigned NOT NULL AUTO_INCREMENT,
                                                    `buyer_id` bigint NOT NULL COMMENT '用户id',
-                                                   `recipient_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件人姓名',
-    `recipient_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件人电话',
-    `recipient_region` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '所在地区',
-    `recipient_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '详细地址',
+                                                   `recipient_name` varchar(50) CHARACTER SET utf8mb4  NOT NULL COMMENT '收件人姓名',
+    `recipient_phone` varchar(255) CHARACTER SET utf8mb4  NOT NULL COMMENT '收件人电话',
+    `recipient_region` varchar(255) CHARACTER SET utf8mb4  NOT NULL COMMENT '所在地区',
+    `recipient_address` varchar(255) CHARACTER SET utf8mb4  NOT NULL COMMENT '详细地址',
     PRIMARY KEY (`receiving_address_id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='收货地址表';
+    ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4     COMMENT='收货地址表';
 
 -- 正在导出表  paper-cutting.receiving_address 的数据：~2 rows (大约)
 INSERT INTO `receiving_address` (`receiving_address_id`, `buyer_id`, `recipient_name`, `recipient_phone`, `recipient_region`, `recipient_address`) VALUES
@@ -209,38 +209,39 @@ CREATE TABLE IF NOT EXISTS `shop_follow` (
                                              `buyer_id` bigint NOT NULL COMMENT '用户id',
                                              `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '关注时间',
                                              PRIMARY KEY (`shop_follow_id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='店铺关注表';
+    ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4     COMMENT='店铺关注表';
 
--- 正在导出表  paper-cutting.shop_follow 的数据：~0 rows (大约)
+-- 正在导出表  paper-cutting.shop_follow 的数据：~1 rows (大约)
 INSERT INTO `shop_follow` (`shop_follow_id`, `shop_id`, `buyer_id`, `create_time`) VALUES
-    (1, 1, 1782381108064657409, '2024-04-23 07:19:32');
+                                                                                       (1, 1, 1782381108064657409, '2024-04-23 07:19:32'),
+                                                                                       (3, 722354187, 1782381108064657409, '2024-05-09 08:45:03');
 
 -- 导出  表 paper-cutting.shop_info 结构
 CREATE TABLE IF NOT EXISTS `shop_info` (
                                            `shop_id` int unsigned NOT NULL AUTO_INCREMENT,
                                            `shop_name` varchar(50) NOT NULL COMMENT '店铺名称',
-    `pic_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '店铺图片',
+    `pic_url` varchar(255) CHARACTER SET utf8mb4  NOT NULL COMMENT '店铺图片',
     `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '逻辑删除(默认0)',
     PRIMARY KEY (`shop_id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=722354191 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='店铺信息表';
+    ) ENGINE=InnoDB AUTO_INCREMENT=722354191 DEFAULT CHARSET=utf8mb4     COMMENT='店铺信息表';
 
 -- 正在导出表  paper-cutting.shop_info 的数据：~3 rows (大约)
 INSERT INTO `shop_info` (`shop_id`, `shop_name`, `pic_url`, `create_time`, `update_time`, `del_flag`) VALUES
-                                                                                                          (1, '姿色纸缘', 'cdf', '2024-04-16 07:26:15', '2024-04-16 07:26:16', b'0'),
-                                                                                                          (722354187, '店铺名称', '品牌logo', '2024-04-25 11:24:41', '2024-04-25 11:24:41', b'0'),
-                                                                                                          (722354190, '店铺名', '品牌logo', '2024-04-28 05:31:23', '2024-04-28 05:31:23', b'0');
+                                                                                                          (1, '姿色纸缘', 'Image\\2024-05-08CDCM.png', '2024-04-16 07:26:15', '2024-05-08 08:51:23', b'0'),
+                                                                                                          (722354187, '店铺名称', 'Image\\2024-05-08CDCM.png', '2024-04-25 11:24:41', '2024-05-08 08:51:24', b'0'),
+                                                                                                          (722354190, '店铺名', 'Image\\2024-05-08CDCM.png', '2024-04-28 05:31:23', '2024-05-08 08:51:24', b'0');
 
 -- 导出  表 paper-cutting.ums_admin 结构
 CREATE TABLE IF NOT EXISTS `ums_admin` (
                                            `id` bigint NOT NULL AUTO_INCREMENT,
-                                           `username` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-    `password` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-    `icon` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '头像',
-    `email` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '邮箱',
-    `nick_name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '昵称',
-    `note` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '备注信息',
+                                           `username` varchar(64) CHARACTER SET utf8mb3    DEFAULT NULL,
+    `password` varchar(64) CHARACTER SET utf8mb3    DEFAULT NULL,
+    `icon` varchar(500) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '头像',
+    `email` varchar(100) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '邮箱',
+    `nick_name` varchar(200) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '昵称',
+    `note` varchar(500) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '备注信息',
     `create_time` datetime DEFAULT NULL COMMENT '创建时间',
     `login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
     `status` int DEFAULT '1' COMMENT '帐号启用状态：0->禁用；1->启用',
@@ -265,13 +266,13 @@ CREATE TABLE IF NOT EXISTS `ums_admin_login_log` (
                                                      `id` bigint NOT NULL AUTO_INCREMENT,
                                                      `admin_id` bigint DEFAULT NULL,
                                                      `create_time` datetime DEFAULT NULL,
-                                                     `ip` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-    `address` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-    `user_agent` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '浏览器登录类型',
+                                                     `ip` varchar(64) CHARACTER SET utf8mb3    DEFAULT NULL,
+    `address` varchar(100) CHARACTER SET utf8mb3    DEFAULT NULL,
+    `user_agent` varchar(100) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '浏览器登录类型',
     PRIMARY KEY (`id`) USING BTREE
-    ) ENGINE=InnoDB AUTO_INCREMENT=426 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='后台用户登录日志表';
+    ) ENGINE=InnoDB AUTO_INCREMENT=427 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='后台用户登录日志表';
 
--- 正在导出表  paper-cutting.ums_admin_login_log 的数据：~418 rows (大约)
+-- 正在导出表  paper-cutting.ums_admin_login_log 的数据：~426 rows (大约)
 INSERT INTO `ums_admin_login_log` (`id`, `admin_id`, `create_time`, `ip`, `address`, `user_agent`) VALUES
                                                                                                        (1, 3, '2018-12-23 14:27:00', '0:0:0:0:0:0:0:1', NULL, NULL),
                                                                                                        (2, 3, '2019-04-07 16:04:39', '0:0:0:0:0:0:0:1', NULL, NULL),
@@ -697,7 +698,8 @@ INSERT INTO `ums_admin_login_log` (`id`, `admin_id`, `create_time`, `ip`, `addre
                                                                                                        (422, 11, '2024-04-25 18:19:13', '10.0.0.172', NULL, NULL),
                                                                                                        (423, 3, '2024-04-26 20:53:17', '192.168.1.8', NULL, NULL),
                                                                                                        (424, 3, '2024-04-26 22:47:01', '192.168.1.8', NULL, NULL),
-                                                                                                       (425, 11, '2024-04-28 13:29:33', '192.168.1.5', NULL, NULL);
+                                                                                                       (425, 11, '2024-04-28 13:29:33', '192.168.1.5', NULL, NULL),
+                                                                                                       (426, 3, '2024-05-09 13:48:55', '10.0.0.172', NULL, NULL);
 
 -- 导出  表 paper-cutting.ums_admin_permission_relation 结构
 CREATE TABLE IF NOT EXISTS `ums_admin_permission_relation` (
@@ -735,7 +737,7 @@ CREATE TABLE IF NOT EXISTS `ums_admin_shop_relation` (
                                                          `admin_id` bigint NOT NULL DEFAULT '0' COMMENT '用户id',
                                                          `shop_id` int NOT NULL COMMENT '店铺id',
                                                          PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1519267843 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户店铺关系表';
+    ) ENGINE=InnoDB AUTO_INCREMENT=1519267843 DEFAULT CHARSET=utf8mb4     COMMENT='用户店铺关系表';
 
 -- 正在导出表  paper-cutting.ums_admin_shop_relation 的数据：~1 rows (大约)
 INSERT INTO `ums_admin_shop_relation` (`id`, `admin_id`, `shop_id`) VALUES
@@ -746,11 +748,11 @@ CREATE TABLE IF NOT EXISTS `ums_menu` (
                                           `id` bigint NOT NULL AUTO_INCREMENT,
                                           `parent_id` bigint DEFAULT NULL COMMENT '父级ID',
                                           `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                                          `title` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '菜单名称',
+                                          `title` varchar(100) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '菜单名称',
     `level` int DEFAULT NULL COMMENT '菜单级数',
     `sort` int DEFAULT NULL COMMENT '菜单排序',
-    `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '前端名称',
-    `icon` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '前端图标',
+    `name` varchar(100) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '前端名称',
+    `icon` varchar(200) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '前端图标',
     `hidden` int DEFAULT NULL COMMENT '前端隐藏',
     PRIMARY KEY (`id`) USING BTREE
     ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='后台菜单表';
@@ -786,11 +788,11 @@ INSERT INTO `ums_menu` (`id`, `parent_id`, `create_time`, `title`, `level`, `sor
 CREATE TABLE IF NOT EXISTS `ums_permission` (
                                                 `id` bigint NOT NULL AUTO_INCREMENT,
                                                 `pid` bigint DEFAULT NULL COMMENT '父级权限id',
-                                                `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '名称',
-    `value` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '权限值',
-    `icon` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '图标',
+                                                `name` varchar(100) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '名称',
+    `value` varchar(200) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '权限值',
+    `icon` varchar(500) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '图标',
     `type` int DEFAULT NULL COMMENT '权限类型：0->目录；1->菜单；2->按钮（接口绑定权限）',
-    `uri` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '前端资源路径',
+    `uri` varchar(200) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '前端资源路径',
     `status` int DEFAULT NULL COMMENT '启用状态；0->禁用；1->启用',
     `create_time` datetime DEFAULT NULL COMMENT '创建时间',
     `sort` int DEFAULT NULL COMMENT '排序',
@@ -822,9 +824,9 @@ INSERT INTO `ums_permission` (`id`, `pid`, `name`, `value`, `icon`, `type`, `uri
 CREATE TABLE IF NOT EXISTS `ums_resource` (
                                               `id` bigint NOT NULL AUTO_INCREMENT,
                                               `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                                              `name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '资源名称',
-    `url` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '资源URL',
-    `description` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '描述',
+                                              `name` varchar(200) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '资源名称',
+    `url` varchar(200) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '资源URL',
+    `description` varchar(500) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '描述',
     `category_id` bigint DEFAULT NULL COMMENT '资源分类ID',
     PRIMARY KEY (`id`) USING BTREE
     ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='后台资源表';
@@ -867,7 +869,7 @@ INSERT INTO `ums_resource` (`id`, `create_time`, `name`, `url`, `description`, `
 CREATE TABLE IF NOT EXISTS `ums_resource_category` (
                                                        `id` bigint NOT NULL AUTO_INCREMENT,
                                                        `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                                                       `name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '分类名称',
+                                                       `name` varchar(200) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '分类名称',
     `sort` int DEFAULT NULL COMMENT '排序',
     PRIMARY KEY (`id`) USING BTREE
     ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='资源分类表';
@@ -884,8 +886,8 @@ INSERT INTO `ums_resource_category` (`id`, `create_time`, `name`, `sort`) VALUES
 -- 导出  表 paper-cutting.ums_role 结构
 CREATE TABLE IF NOT EXISTS `ums_role` (
                                           `id` bigint NOT NULL AUTO_INCREMENT,
-                                          `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '名称',
-    `description` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '描述',
+                                          `name` varchar(100) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '名称',
+    `description` varchar(500) CHARACTER SET utf8mb3    DEFAULT NULL COMMENT '描述',
     `admin_count` int DEFAULT NULL COMMENT '后台用户数量',
     `create_time` datetime DEFAULT NULL COMMENT '创建时间',
     `status` int DEFAULT '1' COMMENT '启用状态：0->禁用；1->启用',

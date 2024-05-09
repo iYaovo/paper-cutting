@@ -103,6 +103,16 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
          }else{
             goodsInfoVo.setIsCollection(true);
          }
+         //判断商品是否被加入购物车
+         QueryWrapper<CartInfo> cartInfoQueryWrapper = new QueryWrapper<>();
+         cartInfoQueryWrapper.eq("goods_id",goodsInfo.getGoodsId())
+                 .eq("buyer_id",iBuyerInfoService.getBuyerInfo().getBuyerId());
+         CartInfo cartInfo = cartInfoMapper.selectOne(cartInfoQueryWrapper);
+         if(ObjectUtil.isEmpty(cartInfo)){
+            goodsInfoVo.setIsJoinCart(false);
+         }else{
+            goodsInfoVo.setIsJoinCart(true);
+         }
          goodsInfoVoList.add(goodsInfoVo);
       });
       return goodsInfoVoList;
@@ -131,7 +141,7 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
    }
 
    @Override
-   public GoodsInfoVo getGoodsById(Integer goodsId) {
+   public void getGoodsById(Integer goodsId) {
       QueryWrapper<GoodsViews> goodsViewsQueryWrapper = new QueryWrapper<>();
       goodsViewsQueryWrapper.eq("goods_id",goodsId);
       GoodsViews goodsViews = goodsViewsMapper.selectOne(goodsViewsQueryWrapper);
@@ -141,10 +151,6 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
          goodsViews.setCreateTime(LocalDateTime.now());
          goodsViewsMapper.updateById(goodsViews);
       }
-      GoodsInfo goodsInfo = goodsInfoMapper.selectById(goodsId);
-      return  new GoodsInfoVo(goodsInfo.getGoodsId(),goodsInfo.getGoodsName(),goodsInfo.getGoodsIntroduction(),
-              ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+goodsInfo.getPicUrl()), goodsInfo.getPrice(),
-              goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber(),goodsInfo.getShopId());
    }
 
 }
