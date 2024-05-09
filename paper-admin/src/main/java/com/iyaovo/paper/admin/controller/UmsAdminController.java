@@ -1,11 +1,14 @@
 package com.iyaovo.paper.admin.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.iyaovo.paper.admin.domain.dto.UmsAdminLoginParam;
 import com.iyaovo.paper.admin.domain.dto.UmsAdminParam;
 import com.iyaovo.paper.admin.domain.dto.UpdateAdminPasswordParam;
 import com.iyaovo.paper.admin.domain.entity.UmsAdmin;
+import com.iyaovo.paper.admin.domain.entity.UmsAdminShopRelation;
 import com.iyaovo.paper.admin.domain.entity.UmsRole;
+import com.iyaovo.paper.admin.mapper.UmsAdminShopRelationMapper;
 import com.iyaovo.paper.admin.service.UmsAdminService;
 import com.iyaovo.paper.admin.service.UmsRoleService;
 import com.iyaovo.paper.common.api.CommonPage;
@@ -23,6 +26,7 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -42,11 +46,26 @@ public class UmsAdminController {
     @Autowired
     private UmsRoleService roleService;
 
+    @Autowired
+    private  UmsAdminShopRelationMapper umsAdminShopRelationMapper;
+
     @Operation(summary = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<UmsAdmin> register(@Validated @RequestBody UmsAdminParam umsAdminParam) {
+
         UmsAdmin umsAdmin = adminService.register(umsAdminParam);
+        if (umsAdmin == null) {
+            return CommonResult.failed();
+        }
+        return CommonResult.success(umsAdmin);
+    }
+
+    @Operation(summary = "管理员添加用户")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult<UmsAdmin> create(@Validated @RequestBody UmsAdminParam umsAdminParam) {
+        UmsAdmin umsAdmin = adminService.create(umsAdminParam);
         if (umsAdmin == null) {
             return CommonResult.failed();
         }
@@ -99,6 +118,13 @@ public class UmsAdminController {
         if(CollUtil.isNotEmpty(roleList)){
             List<String> roles = roleList.stream().map(UmsRole::getName).collect(Collectors.toList());
             data.put("roles",roles);
+        }
+        //店铺id
+        QueryWrapper<UmsAdminShopRelation> umsAdminShopRelationQueryWrapper = new QueryWrapper<UmsAdminShopRelation>();
+        umsAdminShopRelationQueryWrapper.eq("admin_id",umsAdmin.getId());
+        UmsAdminShopRelation umsAdminShopRelation = umsAdminShopRelationMapper.selectOne(umsAdminShopRelationQueryWrapper);
+        if (!Objects.isNull(umsAdminShopRelation)) {
+            data.put("shopId", umsAdminShopRelation.getShopId());
         }
         return CommonResult.success(data);
     }

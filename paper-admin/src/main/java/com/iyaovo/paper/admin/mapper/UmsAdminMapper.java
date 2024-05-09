@@ -1,12 +1,13 @@
 package com.iyaovo.paper.admin.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.iyaovo.paper.admin.domain.entity.UmsAdmin;
 import com.iyaovo.paper.admin.domain.entity.UmsAdminExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface UmsAdminMapper {
+public interface UmsAdminMapper extends BaseMapper<UmsAdmin> {
     long countByExample(UmsAdminExample example);
 
     int deleteByExample(UmsAdminExample example);

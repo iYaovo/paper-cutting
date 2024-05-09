@@ -1,7 +1,7 @@
 package com.iyaovo.paper.admin.controller;
 
-import com.iyaovo.paper.admin.domain.dto.GoodsInfoQueryParam;
-import com.iyaovo.paper.admin.domain.entity.GoodsInfo;
+import com.iyaovo.paper.admin.domain.dto.GoodsInfoParam;
+import com.iyaovo.paper.admin.domain.dto.IdsParam;
 import com.iyaovo.paper.admin.domain.vo.GoodsInfoVo;
 import com.iyaovo.paper.admin.service.IGoodsInfoService;
 import com.iyaovo.paper.common.api.CommonPage;
@@ -20,17 +20,25 @@ import java.util.List;
  */
 @Controller
 @Tag(name =  "商品管理")
-@RequestMapping("/product")
-public class GoodsInfoController {
+@RequestMapping("/goods")
+public class GoodsController {
+
 
     @Autowired
     private IGoodsInfoService iGoodsInfoService;
 
+    @Operation(summary = "获取单个商品")
+    @RequestMapping(value = "/{goodsId}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getOne(@PathVariable("goodsId") Integer goodsId) {
+        return CommonResult.success(iGoodsInfoService.getOneGoods(goodsId));
+    }
+
     @Operation(summary = "创建商品")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult create(@RequestBody GoodsInfo goodsInfo) {
-        int count = iGoodsInfoService.create(goodsInfo);
+    public CommonResult create(@RequestBody GoodsInfoParam goodsInfoParam) {
+        int count = iGoodsInfoService.create(goodsInfoParam);
         if (count > 0) {
             return CommonResult.success(count);
         } else {
@@ -42,8 +50,8 @@ public class GoodsInfoController {
     @Operation(summary = "更新商品")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable Integer id, @RequestBody GoodsInfo goodsInfo) {
-        int count = iGoodsInfoService.update(id, goodsInfo);
+    public CommonResult update(@PathVariable Integer id, @RequestBody GoodsInfoParam goodsInfoParam) {
+        int count = iGoodsInfoService.update(id, goodsInfoParam);
         if (count > 0) {
             return CommonResult.success(count);
         } else {
@@ -54,14 +62,17 @@ public class GoodsInfoController {
     @Operation(summary = "查询商品")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<GoodsInfoVo>> getList(GoodsInfoQueryParam goodsInfoQueryParam,
+    public CommonResult<CommonPage<GoodsInfoVo>> getList( @RequestParam(value = "keyword",required = false)String keyword,
+                                                          @RequestParam(value = "goodsCategoryId",required = false) Integer goodsCategoryId,
+                                                          @RequestParam(value = "shopId",required = false) Integer shopId,
                                                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<GoodsInfoVo> goodsInfoVoList = iGoodsInfoService.list(goodsInfoQueryParam, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(goodsInfoVoList));
+
+        return CommonResult.success(CommonPage.restPage(iGoodsInfoService.list(keyword,goodsCategoryId,shopId, pageSize, pageNum)));
     }
 
-    @Operation(summary = "根据商品名称或货号模糊查询")
+
+    @Operation(summary = "根据商品名称模糊查询")
     @RequestMapping(value = "/simpleList", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<GoodsInfoVo>> getList(String keyword) {
@@ -69,4 +80,12 @@ public class GoodsInfoController {
         return CommonResult.success(goodsInfoVoList);
     }
 
+
+    @Operation(summary = "删除商品")
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult deleteGoods(@RequestBody IdsParam idsParam) {
+        iGoodsInfoService.deleteGoods(idsParam);
+        return CommonResult.success();
+    }
 }

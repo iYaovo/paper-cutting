@@ -16,8 +16,8 @@ public class GoodsInfoQueryParam {
     private String keyword;
 
     @Schema(defaultValue="商品分类编号")
-    private Long goodsSecondCategoryId;
+    private Integer goodsCategoryId;
 
-    @Schema(defaultValue="商品品牌编号")
-    private Long shopId;
+    @Schema(defaultValue="商品店铺编号")
+    private Integer shopId;
 }

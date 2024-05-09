@@ -1,7 +1,9 @@
 package com.iyaovo.paper.admin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.iyaovo.paper.admin.domain.dto.GoodsCategoryParam;
-import com.iyaovo.paper.admin.domain.entity.GoodsCategory;
+import com.iyaovo.paper.admin.domain.dto.GoodsCategoryWithChildrenItem;
+import com.iyaovo.paper.admin.domain.vo.GoodsCategoryVo;
 
 import java.util.List;
 
@@ -35,5 +37,10 @@ public interface IGoodsCategoryService{
      * @param pageNum
      * @return
      */
-    List<GoodsCategory> getList(Long parentId, Integer pageSize, Integer pageNum);
+    Page<GoodsCategoryVo> getList(Long parentId, Integer pageSize, Integer pageNum);
+
+    List<GoodsCategoryWithChildrenItem> listWithChildren();
+
+    GoodsCategoryVo getOneGoodsCategory(Integer goodsCategoryId);
+
 }

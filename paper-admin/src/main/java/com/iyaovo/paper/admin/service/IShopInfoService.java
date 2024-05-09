@@ -1,31 +1,31 @@
 package com.iyaovo.paper.admin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.iyaovo.paper.admin.domain.dto.ShopInfoParam;
-import com.iyaovo.paper.admin.domain.entity.GoodsInfo;
 import com.iyaovo.paper.admin.domain.entity.ShopInfo;
-import com.iyaovo.paper.common.api.CommonPage;
+import com.iyaovo.paper.admin.domain.vo.ShopInfoVo;
 
 import java.util.List;
 
 public interface IShopInfoService extends IService<ShopInfo> {
 
-    /**
-     * 展示该店铺商品
-     */
-    CommonPage<GoodsInfo> showGoodsByShopId(Integer shopId,
-                                            Integer pageNum,
-                                            Integer pageSize);
-
-    /**
-     * 通过商品id获取店铺
-     */
-    ShopInfo showShopInfoByGoodsId(Integer goodsId);
+//    /**
+//     * 展示该店铺商品
+//     */
+//    List<GoodsInfo> showGoodsByShopId(Integer shopId,
+//                                            Integer pageNum,
+//                                            Integer pageSize);
+//
+//    /**
+//     * 通过商品id获取店铺
+//     */
+//    ShopInfo showShopInfoByGoodsId(Integer goodsId);
 
     /**
      * 获取所以店铺
      */
-    List<ShopInfo> listAllShop();
+    List<ShopInfoVo> listAllShop();
 
     /**
      * 创建
@@ -40,21 +40,21 @@ public interface IShopInfoService extends IService<ShopInfo> {
      * @param shopInfoParam
      * @return
      */
-    int updateShop(Long id, ShopInfoParam shopInfoParam);
+    int updateShop(Integer id, ShopInfoParam shopInfoParam);
 
     /**
      * 删除店铺
      * @param id
      * @return
      */
-    int deleteShop(Long id);
+    int deleteShop(Integer id);
 
     /**
      * 批量删除店铺
      * @param ids
      * @return
      */
-    int deleteShop(List<Long> ids);
+    int deleteShop(List<Integer> ids);
 
     /**
      * 通过关键词搜索店铺
@@ -63,5 +63,7 @@ public interface IShopInfoService extends IService<ShopInfo> {
      * @param pageSize
      * @return
      */
-    List<ShopInfo> listShop(String keyword, Integer pageNum, Integer pageSize);
+    Page<ShopInfoVo> listShop(String keyword, Integer pageNum, Integer pageSize);
+
+    ShopInfoVo getOneShop(Integer shopId);
 }

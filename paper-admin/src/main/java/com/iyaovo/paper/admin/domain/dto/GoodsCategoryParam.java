@@ -15,6 +15,9 @@ public class GoodsCategoryParam {
     @Schema(defaultValue = "父分类的编号")
     private Integer parentId;
     @NotEmpty
-    @Schema(defaultValue = "商品分类名称",required = true)
+    @Schema(defaultValue = "商品分类名称")
     private String name;
+
+    @Schema(defaultValue = "类别url")
+    private String picUrl;
 }

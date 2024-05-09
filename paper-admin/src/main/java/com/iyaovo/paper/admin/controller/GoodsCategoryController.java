@@ -1,7 +1,8 @@
 package com.iyaovo.paper.admin.controller;
 
 import com.iyaovo.paper.admin.domain.dto.GoodsCategoryParam;
-import com.iyaovo.paper.admin.domain.entity.GoodsCategory;
+import com.iyaovo.paper.admin.domain.dto.GoodsCategoryWithChildrenItem;
+import com.iyaovo.paper.admin.domain.vo.GoodsCategoryVo;
 import com.iyaovo.paper.admin.service.IGoodsCategoryService;
 import com.iyaovo.paper.common.api.CommonPage;
 import com.iyaovo.paper.common.api.CommonResult;
@@ -26,7 +27,15 @@ public class GoodsCategoryController {
     @Autowired
     private IGoodsCategoryService iGoodsCategoryService;
 
-    @Operation(description = "添加商品分类")
+    @Operation(summary = "获取单个分类")
+    @RequestMapping(value = "/{goodsCategoryId}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getOne(@PathVariable("goodsCategoryId") Integer goodsCategoryId) {
+        return CommonResult.success(iGoodsCategoryService.getOneGoodsCategory(goodsCategoryId));
+    }
+
+
+    @Operation(summary = "添加商品分类")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult create(@Validated @RequestBody GoodsCategoryParam goodsCategoryParam) {
@@ -55,20 +64,13 @@ public class GoodsCategoryController {
     @Operation(summary = "分页查询商品分类")
     @RequestMapping(value = "/list/{parentId}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<GoodsCategory>> getList(@PathVariable Long parentId,
-                                                                @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<GoodsCategory> goodsCategory = iGoodsCategoryService.getList(parentId, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(goodsCategory));
+    public CommonResult<CommonPage<GoodsCategoryVo>> getList(@PathVariable Long parentId,
+                                                             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        return CommonResult.success(CommonPage.restPage(iGoodsCategoryService.getList(parentId, pageSize, pageNum)));
     }
 
-//    @Operation(summary = "根据id获取商品分类")
-//    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-//    @ResponseBody
-//    public CommonResult<PmsProductCategory> getItem(@PathVariable Long id) {
-//        PmsProductCategory productCategory = iGoodsCategoryService.getItem(id);
-//        return CommonResult.success(productCategory);
-//    }
+
 
     @Operation(summary = "删除商品分类")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
@@ -82,11 +84,11 @@ public class GoodsCategoryController {
         }
     }
 
-//    @Operation(summary = "查询所有一级分类及子分类")
-//    @RequestMapping(value = "/list/withChildren", method = RequestMethod.GET)
-//    @ResponseBody
-//    public CommonResult<List<PmsProductCategoryWithChildrenItem>> listWithChildren() {
-//        List<PmsProductCategoryWithChildrenItem> list = iGoodsCategoryService.listWithChildren();
-//        return CommonResult.success(list);
-//    }
+    @Operation(summary = "查询所有一级分类及子分类")
+    @RequestMapping(value = "/list/withChildren", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<GoodsCategoryWithChildrenItem>> listWithChildren() {
+        List<GoodsCategoryWithChildrenItem> list = iGoodsCategoryService.listWithChildren();
+        return CommonResult.success(list);
+    }
 }

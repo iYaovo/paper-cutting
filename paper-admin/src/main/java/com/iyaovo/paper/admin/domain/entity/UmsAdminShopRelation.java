@@ -1,8 +1,8 @@
 /**
  * Copyright (C), 2000-2024, XXX有限公司
- * FileName: shopInfo
+ * FileName: UmsAdminShopRelation
  * Author: 22932
- * Date: 2024/4/11 21:05:40
+ * Date: 2024/4/25 17:15:48
  * Description:
  * <p>
  * History:
@@ -17,39 +17,40 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.iyaovo.paper.common.domain.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * @ClassName: shopInfo
+ * @ClassName: UmsAdminShopRelation
  * @Description: java类描述
  * @Author: 22932
- * @Date: 2024/4/11 21:05:40
+ * @Date: 2024/4/25 17:15:48
  */
-@TableName(value = "shop_info")
-@Schema(description = "店铺")
+@Schema(description = "用户店铺关联表")
+@Slf4j
 @Data
 @AllArgsConstructor
-public class ShopInfo extends BaseEntity {
-    /**
-     * 店铺id
-     */
-    @TableId(value = "shop_id",type = IdType.AUTO)
-    private Integer shopId;
+@TableName("ums_admin_shop_relation")
+public class UmsAdminShopRelation {
 
-    /**
-     * 店铺名称
-     */
-    @TableField("shop_name")
-    private String shopName;
+   /**
+    * id
+    */
+   @TableId(type = IdType.AUTO)
+   private Integer id;
 
-    /**
-     * 标题图片
-     */
-    @TableField("pic_url")
-    private String picUrl;
+   /**
+    * 用户id
+    */
+   @TableField("admin_id")
+   private Long adminId;
 
+   /**
+    * 店铺id
+    */
+   @TableField("shop_id")
+   private Integer shopId;
 }
 

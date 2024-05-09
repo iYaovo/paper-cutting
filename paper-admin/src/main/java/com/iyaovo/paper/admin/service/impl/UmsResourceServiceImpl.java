@@ -1,7 +1,6 @@
 package com.iyaovo.paper.admin.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.github.pagehelper.PageHelper;
 import com.iyaovo.paper.admin.domain.entity.UmsResource;
 import com.iyaovo.paper.admin.domain.entity.UmsResourceExample;
 import com.iyaovo.paper.admin.mapper.UmsResourceMapper;
@@ -51,7 +50,7 @@ public class UmsResourceServiceImpl implements UmsResourceService {
 
     @Override
     public List<UmsResource> list(Long categoryId, String nameKeyword, String urlKeyword, Integer pageSize, Integer pageNum) {
-        PageHelper.startPage(pageNum,pageSize);
+//        PageHelper.startPage(pageNum,pageSize);
         UmsResourceExample example = new UmsResourceExample();
         UmsResourceExample.Criteria criteria = example.createCriteria();
         if(categoryId!=null){

@@ -15,15 +15,10 @@ import lombok.EqualsAndHashCode;
 public class ShopInfoParam {
     @NotEmpty
     @Schema(defaultValue = "店铺名称",required = true)
-    private String name;
+    private String shopName;
 
     @NotEmpty
     @Schema(defaultValue = "品牌logo",required = true)
-    private String logo;
-//
-//    @Schema(defaultValue = "品牌大图")
-//    private String bigPic;
+    private String picUrl;
 
-    @Schema(defaultValue = "品牌介绍")
-    private String introduction;
 }

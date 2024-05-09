@@ -21,7 +21,7 @@ import java.util.List;
 @Controller
 @Tag(name =  "后台用户角色管理")
 @RequestMapping("/role")
-public class UmsRoleController {
+public class  UmsRoleController {
     @Autowired
     private UmsRoleService roleService;
 

@@ -1,7 +1,6 @@
 package com.iyaovo.paper.admin.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.github.pagehelper.PageHelper;
 import com.iyaovo.paper.admin.domain.entity.*;
 import com.iyaovo.paper.admin.mapper.UmsRoleDao;
 import com.iyaovo.paper.admin.mapper.UmsRoleMapper;
@@ -61,7 +60,7 @@ public class UmsRoleServiceImpl implements UmsRoleService {
 
     @Override
     public List<UmsRole> list(String keyword, Integer pageSize, Integer pageNum) {
-        PageHelper.startPage(pageNum, pageSize);
+//        PageHelper.startPage(pageNum, pageSize);
         UmsRoleExample example = new UmsRoleExample();
         if (!StrUtil.isEmpty(keyword)) {
             example.createCriteria().andNameLike("%" + keyword + "%");

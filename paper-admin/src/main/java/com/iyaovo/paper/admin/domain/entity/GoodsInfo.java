@@ -45,10 +45,10 @@ public class GoodsInfo extends BaseEntity {
    private Integer goodsId;
 
    /**
-    * 商品第二类id
+    * 商品类id
     */
-   @TableField("goods_second_category_id")
-   private Integer goodsSecondCategoryId;
+   @TableField("goods_category_id")
+   private Integer goodsCategoryId;
 
    /**
     * 店铺id

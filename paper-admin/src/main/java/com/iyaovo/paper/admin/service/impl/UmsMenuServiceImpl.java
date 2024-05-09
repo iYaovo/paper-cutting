@@ -1,6 +1,6 @@
 package com.iyaovo.paper.admin.service.impl;
 
-import com.github.pagehelper.PageHelper;
+//import com.github.pagehelper.PageHelper;
 import com.iyaovo.paper.admin.domain.dto.UmsMenuNode;
 import com.iyaovo.paper.admin.domain.entity.UmsMenu;
 import com.iyaovo.paper.admin.domain.entity.UmsMenuExample;
@@ -67,7 +67,7 @@ public class UmsMenuServiceImpl implements UmsMenuService {
 
     @Override
     public List<UmsMenu> list(Long parentId, Integer pageSize, Integer pageNum) {
-        PageHelper.startPage(pageNum, pageSize);
+//        PageHelper.startPage(pageNum, pageSize);
         UmsMenuExample example = new UmsMenuExample();
         example.setOrderByClause("sort desc");
         example.createCriteria().andParentIdEqualTo(parentId);

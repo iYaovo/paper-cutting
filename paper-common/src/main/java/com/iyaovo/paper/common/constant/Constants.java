@@ -37,9 +37,9 @@ public class Constants {
    public static final Integer SECOND_CATEGORY = 1;
 
    /**
-    * 买家id前缀
+    * 商品管理员
     */
-   public static final String BUYER_ID_PREFIX = "ku";
+   public static final Long GOODS_MANAGER = 1L;
 
    /**
     * 存储图片路径
