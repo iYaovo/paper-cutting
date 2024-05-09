@@ -93,7 +93,7 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
       goodsInfoList.forEach(goodsInfo ->{
          //entity转为vo
          GoodsInfoVo goodsInfoVo = new GoodsInfoVo(goodsInfo.getGoodsId(),goodsInfo.getGoodsName(),goodsInfo.getGoodsIntroduction(),ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+goodsInfo.getPicUrl()), goodsInfo.getPrice(),
-                 goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber(),goodsInfo.getShopId());
+                 goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber());
          QueryWrapper<GoodsCollection> goodsCollectionQueryWrapper = new QueryWrapper<>();
          goodsCollectionQueryWrapper.eq("goods_id",goodsInfo.getGoodsId())
                  .eq("buyer_id",iBuyerInfoService.getBuyerInfo().getBuyerId());
@@ -113,6 +113,8 @@ public class GoodsInfoServiceImpl extends ServiceImpl<GoodsInfoMapper, GoodsInfo
          }else{
             goodsInfoVo.setIsJoinCart(true);
          }
+         //把店铺信息封装到vo
+         goodsInfoVo.setShopInfo(shopInfoMapper.selectById(goodsInfo.getShopId()));
          goodsInfoVoList.add(goodsInfoVo);
       });
       return goodsInfoVoList;

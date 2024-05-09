@@ -287,7 +287,7 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
         goodsInfoList.forEach(goodsInfo ->{
             //entity转为vo
             GoodsInfoVo goodsInfoVo = new GoodsInfoVo(goodsInfo.getGoodsId(),goodsInfo.getGoodsName(),goodsInfo.getGoodsIntroduction(), ImageToBase64Util.convertFileToBase64(Constants.RESOURCE_PATH+goodsInfo.getPicUrl()), goodsInfo.getPrice(),
-                    goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber(),goodsInfo.getShopId());
+                    goodsInfo.getPromotionPrice(),goodsInfo.getSoldNumber(),goodsInfo.getTotalNumber());
             //判断商品是否被收藏
             QueryWrapper<GoodsCollection> goodsCollectionQueryWrapper = new QueryWrapper<>();
             goodsCollectionQueryWrapper.eq("goods_id",goodsInfo.getGoodsId())
@@ -308,6 +308,8 @@ public class BuyerInfoServiceImpl extends ServiceImpl<BuyerInfoMapper,BuyerInfo>
             }else{
                 goodsInfoVo.setIsJoinCart(true);
             }
+            //把店铺信息封装到vo
+            goodsInfoVo.setShopInfo(shopInfoMapper.selectById(goodsInfo.getShopId()));
             goodsInfoVoList.add(goodsInfoVo);
         });
         return goodsInfoVoList;
