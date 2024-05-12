@@ -65,6 +65,4 @@ yarn-error.log
 # testing
 /coverage
 
-/__tests__
-/android
-/ios
+/android/gradle/wrapper/gradle-8.3-all.zip
